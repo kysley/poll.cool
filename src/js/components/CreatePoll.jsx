@@ -6,19 +6,41 @@ import gql from 'graphql-tag'
 class CreatePoll extends React.Component {
   constructor(props) {
     super(props)
+    this.handleOptionNameChange = this.handleOptionNameChange.bind(this)
 
     this.state = {
       title: '',
-      options: [],
+      options: [{ name: '' }],
     }
   }
 
   handlePoll = () => {
-    const { title, options } = this.state
-    this.props.addPoll({ title, options })
+    const { title } = this.state
+    this.props.submit({ title })
       .then(() => {
         console.log('sucess?')
       })
+  }
+
+  handleOptionNameChange = (e, idx) => {
+    const newOptions = this.state.options.map((option, oidx) => {
+      if (idx !== oidx) return option
+      return { name: e.target.value }
+    })
+
+    this.setState({ options: newOptions })
+  }
+
+  handleOptionChange = (e) => {
+    this.setState({
+      name: e.target.value,
+    })
+  }
+
+  handleAddOption = () => {
+    this.setState({
+      options: this.state.options.concat([{ name: '' }]),
+    })
   }
 
   render() {
@@ -32,13 +54,16 @@ class CreatePoll extends React.Component {
           onChange={(e) => this.setState({ title: e.target.value })}
         />
         <label> Movie Cover Image: </label>
-        <input
-          className="w-100 pa3 mv2"
-          value={this.state.options}
-          placeholder="poll opt"
-          onChange={(e) => this.setState({ options: e.target.value })}
-        />
-
+        {this.state.options.map((option, idx) => (
+          <input
+            className="w-100 pa3 mv2"
+            placeholder={`Option #${idx + 1} name`}
+            value={option.name}
+            onChange={(e) => this.handleOptionNameChange(e, idx)}
+            key={idx}
+          />
+        ))}
+        <button className="btn btn-info btn-lg" onClick={this.handleAddOption}>Add Option</button>
         {this.state.title && this.state.options &&
           <button className="btn btn-info btn-lg" onClick={this.handlePoll}>Add New Poll</button>
         }
@@ -47,21 +72,23 @@ class CreatePoll extends React.Component {
   }
 }
 
-const addMutation = gql`
-  mutation addPoll($title: String!, $options: [String!]) {
-    createPoll(title: $title, options: $options) {
-      id
+const submitPoll = gql`
+  mutation createPoll ($title: String!) {
+    createPoll(
+      title: $title
+    ) {
       title
-      options
     }
   }
 `
 
-export default graphql(addMutation, {
+const NewPoll = graphql(submitPoll, {
   props: ({ ownProps, mutate }) => ({
-    addPoll: ({ title, options }) =>
+    submit: ({ title }) =>
       mutate({
-        variables: { title, options },
+        variables: { title },
       }),
   }),
-})(withRouter(CreatePoll))
+})(CreatePoll)
+
+export default withRouter(NewPoll)
