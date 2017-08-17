@@ -1,6 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
 class CreatePoll extends React.Component {
@@ -23,6 +23,16 @@ class CreatePoll extends React.Component {
         console.log('success!')
         this.setState({
           id: res.data.createPoll.id,
+        })
+      })
+      .then(() => {
+        const { id } = this.state
+        options.forEach((opt) => {
+          const name = opt.name
+          this.props.submitOpt({ id, name })
+            .then((res) => {
+              console.log('opt success' + res)
+            })
         })
       })
   }
@@ -90,29 +100,33 @@ const submitPoll = gql`
 
 const submitOption = gql`
   mutation addOption ($id: ID!, $name: String!) {
-    createOption(pollId: $id, name: $name) {
+    createOption(
+      pollId: $id,
+      name: $name
+     ) {
       id
       name
     }
   }
 `
 
-const AddOption = graphql(submitOption, {
-  props: ({ ownProps, mutate }) => ({
-    submitOpt: ({ option }) =>
-      mutate({
-        variables: { option },
-      }),
+const AllMutations = compose(
+  graphql(submitOption, {
+    props: ({ ownProps, mutate }) => ({
+      submitOpt: ({ id, name }) =>
+        mutate({
+          variables: { id, name },
+        }),
+    }),
   }),
-})
-
-const NewPoll = graphql(submitPoll, {
-  props: ({ ownProps, mutate }) => ({
-    submit: ({ title }) =>
-      mutate({
-        variables: { title },
-      }),
+  graphql(submitPoll, {
+    props: ({ ownProps, mutate }) => ({
+      submit: ({ title }) =>
+        mutate({
+          variables: { title },
+        }),
+    }),
   }),
-})(CreatePoll)
+)(CreatePoll)
 
-export default withRouter(NewPoll)
+export default withRouter(AllMutations)
