@@ -18,6 +18,7 @@ ReactDOM.render((
   <ApolloProvider client={client}>
     <Router>
       <Route path="/" component={App} />
+      {/* <Route path="/poll/:id" component={ShowPoll} /> */}
     </Router>
   </ApolloProvider>
 ), document.getElementById('app'))
