@@ -9,7 +9,7 @@ const chunkFile = isProd ? '[name].[chunkhash]' : '[name]'
 const hashFile = isProd ? '[name].[hash:5]' : '[name]'
 
 const htmlConfig = {
-  title: 'Evan Kysley',
+  title: 'poll poc',
   // favicon: 'src/img/favicon.png',
   template: 'src/index.ejs',
 }
