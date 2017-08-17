@@ -11,14 +11,19 @@ class CreatePoll extends React.Component {
     this.state = {
       title: '',
       options: [{ name: '' }],
+      id: '',
     }
   }
 
   handlePoll = () => {
     const { title } = this.state
+    const { options } = this.state
     this.props.submit({ title })
-      .then(() => {
-        console.log('sucess?')
+      .then((res) => {
+        console.log('success!')
+        this.setState({
+          id: res.data.createPoll.id,
+        })
       })
   }
 
@@ -77,10 +82,29 @@ const submitPoll = gql`
     createPoll(
       title: $title
     ) {
+      id
       title
     }
   }
 `
+
+const submitOption = gql`
+  mutation addOption ($id: ID!, $name: String!) {
+    createOption(pollId: $id, name: $name) {
+      id
+      name
+    }
+  }
+`
+
+const AddOption = graphql(submitOption, {
+  props: ({ ownProps, mutate }) => ({
+    submitOpt: ({ option }) =>
+      mutate({
+        variables: { option },
+      }),
+  }),
+})
 
 const NewPoll = graphql(submitPoll, {
   props: ({ ownProps, mutate }) => ({
