@@ -2,7 +2,6 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import { SubscriptionClient } from 'subscriptions-transport-ws'
 
 class ShowPoll extends React.Component {
   constructor(props) {
