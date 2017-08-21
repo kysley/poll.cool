@@ -66,7 +66,7 @@ class CreatePoll extends React.Component {
           className=""
           value={this.state.title}
           placeholder="Title of the poll"
-          onChange={(e) => this.setState({ title: e.target.value })}
+          onChange={e => this.setState({ title: e.target.value })}
         />
         <label> Movie Cover Image: </label>
         {this.state.options.map((option, idx) => (
@@ -74,7 +74,7 @@ class CreatePoll extends React.Component {
             className="w-100 pa3 mv2"
             placeholder={`Option #${idx + 1} name`}
             value={option.name}
-            onChange={(e) => this.handleOptionNameChange(e, idx)}
+            onChange={e => this.handleOptionNameChange(e, idx)}
             key={idx}
           />
         ))}
