@@ -19,6 +19,11 @@ class CreatePoll extends React.Component {
   handlePoll = () => {
     const { title } = this.state
     const { options } = this.state
+    if (this.state.title) {
+      this.setState({
+        validTitle: true,
+      })
+    }
     this.props.submit({ title })
       .then((res) => {
         console.log('success!')
@@ -62,36 +67,45 @@ class CreatePoll extends React.Component {
   render() {
     return (
       <div>
-        { this.state.validTitle ? (
+        { !this.state.validTitle ? (
           <div>
-            hi
+            <label htmlFor="title"> Title: </label>
+            <input
+              className=""
+              value={this.state.title}
+              placeholder="Title of your poll"
+              id="title"
+              onChange={e => this.setState({ title: e.target.value })}
+            />
+            <button
+              className="btn btn-info btn-lg"
+              onClick={this.handlePoll}
+            >
+              Save Poll Title
+            </button>
           </div>
         ) : (
           <div>
-            bye
+            <label htmlFor="options"> Poll Options: </label>
+            { this.state.options.map((option, idx) => (
+              <input
+                className="w-100 pa3 mv2"
+                placeholder={`Option #${idx + 1} name`}
+                value={option.name}
+                onChange={e => this.handleOptionNameChange(e, idx)}
+                key={idx}
+              />
+            ))}
+            {this.state.title && this.state.options &&
+              <button
+                className="btn btn-info btn-lg"
+                onClick={this.handlePoll}
+              >
+                Add New Poll
+              </button>
+            }
           </div>
         )}
-        <label> Poll Title: </label>
-        <input
-          className=""
-          value={this.state.title}
-          placeholder="Title of the poll"
-          onChange={e => this.setState({ title: e.target.value })}
-        />
-        <label> Poll Options: </label>
-        {this.state.options.map((option, idx) => (
-          <input
-            className="w-100 pa3 mv2"
-            placeholder={`Option #${idx + 1} name`}
-            value={option.name}
-            onChange={e => this.handleOptionNameChange(e, idx)}
-            key={idx}
-          />
-        ))}
-        <button className="btn btn-info btn-lg" onClick={this.handleAddOption}>Add Option</button>
-        {this.state.title && this.state.options &&
-          <button className="btn btn-info btn-lg" onClick={this.handlePoll}>Add New Poll</button>
-        }
       </div>
     )
   }
