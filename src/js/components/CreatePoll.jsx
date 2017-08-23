@@ -10,8 +10,9 @@ class CreatePoll extends React.Component {
 
     this.state = {
       title: '',
-      options: [{ name: '' }],
+      options: [{ name: '' }, { name: '' }],
       id: '',
+      validTitle: false,
     }
   }
 
@@ -61,14 +62,23 @@ class CreatePoll extends React.Component {
   render() {
     return (
       <div>
-        <label> Movie Title: </label>
+        { this.state.validTitle ? (
+          <div>
+            hi
+          </div>
+        ) : (
+          <div>
+            bye
+          </div>
+        )}
+        <label> Poll Title: </label>
         <input
           className=""
           value={this.state.title}
           placeholder="Title of the poll"
           onChange={e => this.setState({ title: e.target.value })}
         />
-        <label> Movie Cover Image: </label>
+        <label> Poll Options: </label>
         {this.state.options.map((option, idx) => (
           <input
             className="w-100 pa3 mv2"
