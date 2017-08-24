@@ -19,11 +19,6 @@ class CreatePoll extends React.Component {
   handlePoll = () => {
     const { title } = this.state
     const { options } = this.state
-    if (this.state.title) {
-      this.setState({
-        validTitle: true,
-      })
-    }
     this.props.submit({ title })
       .then((res) => {
         console.log('success!')
@@ -41,6 +36,17 @@ class CreatePoll extends React.Component {
             })
         })
       })
+      .then(() => {
+
+      })
+  }
+
+  handleSaveTitle = () => {
+    if (this.state.title) {
+      this.setState({
+        validTitle: true,
+      })
+    }
   }
 
   handleOptionNameChange = (e, idx) => {
@@ -79,7 +85,7 @@ class CreatePoll extends React.Component {
             />
             <button
               className="btn btn-info btn-lg"
-              onClick={this.handlePoll}
+              onClick={this.handleSaveTitle}
             >
               Save Poll Title
             </button>
