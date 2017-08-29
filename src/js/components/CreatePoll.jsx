@@ -102,6 +102,12 @@ class CreatePoll extends React.Component {
                 key={idx}
               />
             ))}
+            <button
+              className="btn btn-info btn-lg"
+              onClick={this.handleAddOption}
+            >
+              Add Option
+            </button>
             {this.state.title && this.state.options &&
               <button
                 className="btn btn-info btn-lg"
