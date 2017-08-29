@@ -4,18 +4,19 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
 const allVotes = gql`
-query {
-  Poll(id: "cj6mtnsgkufou0183q5e6u9jo") {
-    id
-      options {
-        name
-        _votesMeta {
-          count
+  query allPollData($id: ID!) {
+    Poll(id: $id) {
+      id
+        options {
+          name
+          id
+          _votesMeta {
+            count
+          }
         }
       }
     }
-  }
-`
+  `
 
 class ShowPoll extends React.Component {
   constructor(props) {
@@ -23,11 +24,17 @@ class ShowPoll extends React.Component {
 
     this.state = {
       value: '',
-      id: 'cj6mtnsgkufou0183q5e6u9jo',
+      id: '',
     }
   }
 
+  componentWillMount() {
+    this.setIdFromUrl()
+  }
+
   componentDidMount() {
+    const { id } = this.state
+    console.log(id)
     console.log(allVotes)
     console.log(this.props)
     this.voteSubscription = this.props.allVotesQuery.subscribeToMore({
@@ -70,6 +77,15 @@ class ShowPoll extends React.Component {
     }
   }
 
+  setIdFromUrl = () => {
+    const idFromUrl = this.props.match.params.id
+    this.setState({
+      id: idFromUrl,
+    })
+    console.log(idFromUrl)
+    console.log(allVotes)
+  }
+
   render() {
     return (
       <div>
@@ -79,6 +95,14 @@ class ShowPoll extends React.Component {
   }
 }
 
-const VoteSub = graphql(allVotes, { name: 'allVotesQuery' })(ShowPoll)
+// const VoteSub = graphql(allVotes, { name: 'allVotesQuery' })(ShowPoll)
+
+const VoteSub = graphql(allVotes, {
+  options: ownProps => ({
+    variables: {
+      id: ownProps.match.params.id,
+    },
+  }),
+  name: 'allVotesQuery' })(ShowPoll)
 
 export default withRouter(VoteSub)
