@@ -54,6 +54,7 @@ class ShowPoll extends React.Component {
           mutation
             node {
                 option {
+                  id
                     _votesMeta {
                       count
                     }
