@@ -1,11 +1,11 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Redirect } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
 class CreatePoll extends React.Component {
-  constructor(props) {
-    super(props)
+  constructor(props, context) {
+    super(props, context)
     this.handleOptionNameChange = this.handleOptionNameChange.bind(this)
 
     this.state = {
@@ -37,7 +37,7 @@ class CreatePoll extends React.Component {
         })
       })
       .then(() => {
-
+        this.props.history.push(`/poll/${this.state.id}`)
       })
   }
 
