@@ -37,7 +37,8 @@ class CreatePoll extends React.Component {
         })
       })
       .then(() => {
-
+        const redirectUrl = `/poll/${this.state.id}`
+        this.props.history.push(redirectUrl)
       })
   }
 
