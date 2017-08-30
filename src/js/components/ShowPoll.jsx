@@ -25,6 +25,7 @@ class ShowPoll extends React.Component {
     this.state = {
       value: '',
       id: '',
+      options: null,
     }
   }
 
@@ -34,9 +35,6 @@ class ShowPoll extends React.Component {
 
   componentDidMount() {
     const { id } = this.state
-    console.log(id)
-    console.log(allVotes)
-    console.log(this.props)
     this.voteSubscription = this.props.allVotesQuery.subscribeToMore({
       document: gql`
       subscription watchVotes{
@@ -73,6 +71,16 @@ class ShowPoll extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.allVotesQuery.Poll.options) {
+      const optionsMap = nextProps.allVotesQuery.Poll.options.map(option => ({
+        id: option.id,
+        name: option.name,
+        count: option._votesMeta.count,
+      }))
+      this.setState({
+        options: optionsMap,
+      })
+    }
     if (nextProps.VoteSub) {
       console.log(nextProps)
     }
@@ -83,14 +91,18 @@ class ShowPoll extends React.Component {
     this.setState({
       id: idFromUrl,
     })
-    console.log(idFromUrl)
-    console.log(allVotes)
   }
 
   render() {
+    console.log(this.state.options)
     return (
       <div>
-      sup
+        { (this.state.options.map((option, idx) => (
+          <div key={idx}>
+            { option.name }
+            <button>Vote</button>
+          </div>
+        )))}
       </div>
     )
   }
