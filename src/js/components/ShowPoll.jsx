@@ -35,10 +35,7 @@ class ShowPoll extends React.Component {
 
   componentDidMount() {
     const { id } = this.state
-<<<<<<< HEAD
     console.log(this.props)
-=======
->>>>>>> 2d824e6689daef0b4ffe0f81a1cfbcef7b0ef044
     this.voteSubscription = this.props.allVotesQuery.subscribeToMore({
       document: gql`
       subscription watchVotes{
@@ -75,11 +72,10 @@ class ShowPoll extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-<<<<<<< HEAD
     console.log(nextProps)
     if (nextProps.allVotesQuery.Poll) {
       console.log("there is data")
-=======
+    }
     if (nextProps.allVotesQuery.Poll.options) {
       const optionsMap = nextProps.allVotesQuery.Poll.options.map(option => ({
         id: option.id,
@@ -92,7 +88,6 @@ class ShowPoll extends React.Component {
     }
     if (nextProps.VoteSub) {
       console.log(nextProps)
->>>>>>> 2d824e6689daef0b4ffe0f81a1cfbcef7b0ef044
     }
   }
 
@@ -103,22 +98,24 @@ class ShowPoll extends React.Component {
     })
   }
 
+  addVote = (id) => {
+    console.log(`this is the id: ${id}`)
+  }
+
   render() {
     console.log(this.state.options)
     return (
       <div>
-        { (this.state.options.map((option, idx) => (
+        { !this.props.allVotesQuery.loading && (this.state.options.map((option, idx) => (
           <div key={idx}>
-            { option.name }
-            <button>Vote</button>
+            { option.name } || { option.count }
+            <button onClick={() => this.addVote(option.id)}>Vote</button>
           </div>
         )))}
       </div>
     )
   }
 }
-
-// const VoteSub = graphql(allVotes, { name: 'allVotesQuery' })(ShowPoll)
 
 const VoteSub = graphql(allVotes, {
   options: ownProps => ({

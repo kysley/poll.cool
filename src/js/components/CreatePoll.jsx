@@ -17,6 +17,7 @@ class CreatePoll extends React.Component {
   }
 
   handlePoll = () => {
+    console.log('handle poll')
     const { title } = this.state
     const { options } = this.state
     this.props.submit({ title })

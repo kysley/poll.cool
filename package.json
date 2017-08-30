@@ -10,11 +10,11 @@
     "build": "NODE_ENV=production webpack"
   },
   "devDependencies": {
-    "eslint-loader": "^1.8.0",
-    "eslint": "^4.3.0",
     "babel-eslint": "^7.2.3",
+    "eslint": "^4.3.0",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-import-resolver-webpack": "^0.8.3",
+    "eslint-loader": "^1.8.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0"
