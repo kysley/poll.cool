@@ -34,8 +34,6 @@ class ShowPoll extends React.Component {
 
   componentDidMount() {
     const { id } = this.state
-    console.log(id)
-    console.log(allVotes)
     console.log(this.props)
     this.voteSubscription = this.props.allVotesQuery.subscribeToMore({
       document: gql`
@@ -65,16 +63,17 @@ class ShowPoll extends React.Component {
       `,
       variables: null,
       updateQuery: (previousState, { subscriptionData }) => {
-        if (subscriptionData.data) {
-          console.log(subscriptionData.data)
+        if (subscriptionData) {
+          console.log(subscriptionData)
         }
       },
     })
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.VoteSub) {
-      console.log(nextProps)
+    console.log(nextProps)
+    if (nextProps.allVotesQuery.Poll) {
+      console.log("there is data")
     }
   }
 
