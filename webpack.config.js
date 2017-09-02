@@ -9,7 +9,7 @@ const chunkFile = isProd ? '[name].[chunkhash]' : '[name]'
 const hashFile = isProd ? '[name].[hash:5]' : '[name]'
 
 const htmlConfig = {
-  title: 'poll poc',
+  title: 'pollarity',
   // favicon: 'src/img/favicon.png',
   template: 'src/index.ejs',
 }
@@ -128,6 +128,6 @@ module.exports = {
     }),
     new HtmlWebpackPlugin(htmlConfig),
     new HtmlWebpackPlugin(htmlConfig404),
-    new SitemapPlugin('http://test.com', routes),
+    new SitemapPlugin('http://pollarity.cool', routes),
   ],
 }
