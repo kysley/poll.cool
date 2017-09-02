@@ -1,0 +1,124 @@
+@lost flexbox flex;
+
+.container {
+  lost-center: 1100px;
+  padding: 0 20px;
+
+  &.small {
+    lost-center: 700px;
+  }
+
+  &.full {
+    lost-center: 100%;
+    padding: 0;
+  }
+}
+
+.grid-row {
+  lost-flex-container: row;
+}
+
+.col-1-of-1 {
+  lost-column: 1/1 flex;
+}
+
+.col-1-of-2 {
+  lost-column: 1/2 flex;
+}
+
+.col-1-of-12 {
+  lost-column: 1/12 flex;
+}
+
+.col-3-of-12 {
+  lost-column: 3/12 flex;
+  lost-column-cycle: 4;
+}
+
+.col-4-of-12 {
+  lost-column: 4/12 flex;
+}
+
+.col-5-of-12 {
+  lost-column: 5/12 flex;
+}
+
+.col-6-of-12 {
+  lost-column: 6/12 flex;
+}
+
+.col-7-of-12 {
+  lost-column: 7/12 flex;
+}
+
+.col-8-of-12 {
+  lost-column: 8/12 flex;
+}
+
+.col-9-of-12 {
+  lost-column: 9/12 flex;
+}
+
+.col-10-of-12 {
+  lost-column: 10/12 flex;
+}
+
+.col-11-of-12 {
+  lost-column: 11/12 flex;
+}
+
+.col-12-of-12 {
+  lost-column: 12/12 flex;
+}
+
+.pull-1 {
+  lost-offset: -1/12;
+}
+
+.pull-2 {
+  lost-offset: -2/12;
+}
+
+.pull-3 {
+  lost-offset: -3/12;
+}
+
+.pull-4 {
+  lost-offset: -4/12;
+}
+
+.push-1 {
+  lost-offset: 1/12;
+}
+
+.push-2 {
+  lost-offset: 2/12;
+}
+
+.push-3 {
+  lost-offset: 3/12;
+}
+
+.push-4 {
+  lost-offset: 4/12;
+}
+
+.push-6 {
+  lost-offset: 6/12;
+}
+
+@media (--mobile) {
+  .container, .container.small, .container.full {
+    lost-center: 500px;
+    padding: 0 20px;
+  }
+
+  .container.full {
+    padding: 0;
+  }
+
+  [class^='col-'], .split-view aside {
+    lost-column: 12/12;
+    lost-offset: 0/12;
+  }
+}

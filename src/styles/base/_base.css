@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--white);
+  color: var(--black);
+  font-family: var(--sansSerif);
+  font-size: 1rem;
+  font-weight: normal;
+  line-height: 1.5rem;
+  letter-spacing: .02rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  line-height: inherit;
+  text-decoration: none;
+  transition: .2s all ease-in-out;
+
+  span {
+    display: block;
+  }
+}
+
+.logo {
+  height: 2.25em;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.fixed {
+  position: fixed;
+}

@@ -1,0 +1,31 @@
+@font-face {
+  font-family: TB;
+  src: url("../fonts/Theinhardt-Bold.woff");
+}
+
+@font-face {
+  font-family: T;
+  src: url("../fonts/Theinhardt-Regular.woff");
+}
+
+:root {
+  --black: #000000;
+  --blue: rgb(0, 0, 255);
+  --red: rgb(255, 0, 0);
+  --purple: #635EFF;
+  --white: #ffffff;
+
+  --baseFont: -apple-system,
+    '.SFNSText-Regular',
+    'San Francisco',
+    'Roboto',
+    'Segoe UI',
+    'Helvetica Neue',
+    'Lucida Grande',
+    sans-serif;
+
+  --sansSerif: 'T', var(--baseFont);
+  --sansSerifBold: 'TB', var(--baseFont);
+}
+
+@custom-media --mobile (width < 750px);

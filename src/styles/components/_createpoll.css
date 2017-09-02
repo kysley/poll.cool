@@ -1,0 +1,83 @@
+.create--wrapper {
+  margin-top: 30vh;
+}
+
+.create--title {
+  font-family: TB;
+  font-size: 3rem;
+  display: block;
+  lost-align: center;
+  padding-bottom: 4rem;
+}
+
+.create--input {
+  border: none;
+  outline: 0;
+  font-size: .8rem;
+  box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.07);
+  width: 50%;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: .5rem;
+  border-radius: 5px;
+  lost-center: flex;
+  transition: all .25s ease-in-out;
+  &.option {
+    margin-bottom: 1rem;
+    &.opt-is-invalid {
+      box-shadow: 0px 10px 20px 0px rgba(255, 0, 0, 0.2);
+    }
+  }
+  &:focus {
+    box-shadow: 0px 15px 25px 0px rgba(0, 0, 0, 0.2) !important;
+  }
+  &:hover {
+    box-shadow: 0px 12px 22px 0px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.create--button {
+  border: none;
+  outline: 0;
+  font-size: .9rem;
+  padding: 1rem;
+  margin-top: 4rem;
+  color: var(--white);
+  lost-center: flex;
+  border-radius: 25px;
+  transition: all .2s ease-out;
+  &:hover {
+    transform: translateY(2px);
+  }
+  &._submit {
+    width: 30%;
+    lost-align: center;
+  }
+}
+
+.option--button {
+  border: none;
+  outline: 0;
+  font-size: .9rem;
+  padding: .7rem;
+  margin-top: 2rem;
+  color: var(--white);
+  background: var(--purple);
+  lost-center: flex;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all .2s ease-out;
+  &:hover {
+    transform: translateY(2px);
+  }
+}
+
+.is-valid {
+  background: rgb(0, 0, 255) !important;
+  cursor: pointer !important;
+}
+
+.is-invalid {
+  background: rgb(255, 0, 0) !important;
+  cursor: not-allowed !important;
+}
