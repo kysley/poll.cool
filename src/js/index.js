@@ -7,6 +7,8 @@ import { ApolloProvider } from 'react-apollo'
 import CreatePoll from './components/CreatePoll'
 import ShowPoll from './components/ShowPoll'
 
+import styles from '../styles/app.css'
+
 const wsClient = new SubscriptionClient(`wss://subscriptions.graph.cool/v1/cj66g2wto1lbd0187xc4xvdpq`, {
   reconnect: true,
   connectionParams: {
