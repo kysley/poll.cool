@@ -1,7 +1,9 @@
 import React from 'react'
-import { withRouter, Redirect } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
+import classNames from 'classnames'
+import { Motion, spring } from 'react-motion'
 
 class CreatePoll extends React.Component {
   constructor(props, context) {
@@ -10,9 +12,11 @@ class CreatePoll extends React.Component {
 
     this.state = {
       title: '',
-      options: [{ name: '' }, { name: '' }],
+      options: [{ name: '', valid: false }, { name: '', valid: false }],
       id: '',
       validTitle: false,
+      titleText: 'Set Poll Title',
+      validOptionSet: false,
     }
   }
 
@@ -44,9 +48,25 @@ class CreatePoll extends React.Component {
   }
 
   handleSaveTitle = () => {
-    if (this.state.title) {
+    if (this.state.titleText === 'Continue') {
       this.setState({
         validTitle: true,
+      })
+    }
+  }
+
+  handleTitleChange = (e) => {
+    const eTitle = e.target.value
+    const trimmedTitle = eTitle.replace(/^\s+/, '').replace(/\s+$/, '')
+    if (trimmedTitle === '') {
+      this.setState({
+        title: '',
+        titleText: 'Set Poll Title',
+      })
+    } else {
+      this.setState({
+        title: eTitle,
+        titleText: 'Continue',
       })
     }
   }
@@ -73,52 +93,66 @@ class CreatePoll extends React.Component {
   }
 
   render() {
+    const createbuttonClasses = classNames({
+      'create--button': true,
+      'is-valid': this.state.titleText === 'Continue',
+      'is-invalid': this.state.titleText !== 'Continue',
+    })
+    const submitbuttonClasses = classNames({
+      'create--button': true,
+      '_submit': true,
+      'is-valid': this.state.validOptionSet,
+      'is-invalid': !this.state.validOptionSet,
+    })
     return (
-      <div>
+      <div className="container full">
         { !this.state.validTitle ? (
-          <div>
-            <label htmlFor="title"> Title: </label>
+          <div className="col-6-of-12 push-4 fadeInUp create--wrapper">
+            <h1 className="create--title">Create a new Poll</h1>
             <input
-              className=""
+              className="create--input"
               value={this.state.title}
-              placeholder="Title of your poll"
+              placeholder="Poll Title"
               id="title"
-              onChange={e => this.setState({ title: e.target.value })}
+              autoComplete={false}
+              onChange={e => this.handleTitleChange(e)}
             />
             <button
-              className="btn btn-info btn-lg"
+              className={createbuttonClasses}
               onClick={this.handleSaveTitle}
             >
-              Save Poll Title
+              {this.state.titleText}
             </button>
           </div>
         ) : (
-          <div>
-            <label htmlFor="options"> Poll Options: </label>
-            { this.state.options.map((option, idx) => (
-              <input
-                className="w-100 pa3 mv2"
-                placeholder={`Option #${idx + 1} name`}
-                value={option.name}
-                onChange={e => this.handleOptionNameChange(e, idx)}
-                key={idx}
-              />
-            ))}
-            <button
-              className="btn btn-info btn-lg"
-              onClick={this.handleAddOption}
-            >
-              Add Option
-            </button>
-            {this.state.title && this.state.options &&
-              <button
-                className="btn btn-info btn-lg"
-                onClick={this.handlePoll}
-              >
-                Add New Poll
-              </button>
+          <Motion defaultStyle={{ x: 0 }} style={{ x: spring(1) }}>
+            {value =>
+              <div className="col-6-of-12 push-4 create--wrapper" style={{ opacity: value.x }}>
+                <h2 className="create--title">Add Options to {this.state.title}</h2>
+                { this.state.options.map((option, idx) => (
+                  <input
+                    className="create--input option"
+                    placeholder={`Option ${idx + 1}`}
+                    value={option.name}
+                    onChange={e => this.handleOptionNameChange(e, idx)}
+                    key={idx}
+                  />
+                ))}
+                <button
+                  className="option--button"
+                  onClick={this.handleAddOption}
+                >
+                  Add Option
+                </button>
+                <button
+                  className={submitbuttonClasses}
+                  onClick={this.handlePoll}
+                >
+                  Submit Poll
+                </button>
+              </div>
             }
-          </div>
+          </Motion>
         )}
       </div>
     )
