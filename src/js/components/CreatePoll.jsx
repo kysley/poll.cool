@@ -5,10 +5,14 @@ import gql from 'graphql-tag'
 import classNames from 'classnames'
 import { Motion, spring } from 'react-motion'
 
+import TitleButton from './TitleButton'
+import SubmitButton from './SubmitButton'
+
 class CreatePoll extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.handleOptionNameChange = this.handleOptionNameChange.bind(this)
+    this.handleSaveTitle = this.handleSaveTitle.bind(this)
 
     this.state = {
       title: '',
@@ -93,17 +97,6 @@ class CreatePoll extends React.Component {
   }
 
   render() {
-    const createbuttonClasses = classNames({
-      'create--button': true,
-      'is-valid': this.state.titleText === 'Continue',
-      'is-invalid': this.state.titleText !== 'Continue',
-    })
-    const submitbuttonClasses = classNames({
-      'create--button': true,
-      '_submit': true,
-      'is-valid': this.state.validOptionSet,
-      'is-invalid': !this.state.validOptionSet,
-    })
     return (
       <div className="container full">
         { !this.state.validTitle ? (
@@ -117,12 +110,13 @@ class CreatePoll extends React.Component {
               autoComplete={false}
               onChange={e => this.handleTitleChange(e)}
             />
-            <button
-              className={createbuttonClasses}
-              onClick={this.handleSaveTitle}
+            <TitleButton
+              validTitle={this.state.titleText}
+              handleSaveTitle={this.handleSaveTitle}
+              titleText={this.state.titleText}
             >
               {this.state.titleText}
-            </button>
+            </TitleButton>
           </div>
         ) : (
           <Motion defaultStyle={{ x: 0 }} style={{ x: spring(1) }}>
@@ -144,12 +138,13 @@ class CreatePoll extends React.Component {
                 >
                   Add Option
                 </button>
-                <button
-                  className={submitbuttonClasses}
+                <SubmitButton
                   onClick={this.handlePoll}
+                  validOptions={this.state.validOptionSet}
+                  titleText={this.state.titleText}
                 >
                   Submit Poll
-                </button>
+                </SubmitButton>
               </div>
             }
           </Motion>
