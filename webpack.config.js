@@ -3,6 +3,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const SitemapPlugin = require('sitemap-webpack-plugin')
+const BabiliPlugin = require('babel-minify-webpack-plugin')
 
 const isProd = process.env.NODE_ENV === 'production'
 const chunkFile = isProd ? '[name].[chunkhash]' : '[name]'
@@ -36,6 +37,7 @@ module.exports = {
     vendor: [
       'lost',
       'react-dom',
+      'react-motion',
       'react-ga',
       'react-router-dom',
       'react-svg-inline',
@@ -122,10 +124,15 @@ module.exports = {
   },
 
   plugins: [
-    new ExtractTextPlugin(`styles/${chunkFile}.css`),
+    new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify('production')
+    }),
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
     }),
+    new BabiliPlugin({}),
+    new ExtractTextPlugin(`styles/${chunkFile}.css`),
     new HtmlWebpackPlugin(htmlConfig),
     new HtmlWebpackPlugin(htmlConfig404),
     new SitemapPlugin('http://pollarity.cool', routes),
