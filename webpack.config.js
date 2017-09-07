@@ -123,7 +123,7 @@ module.exports = {
     },
   },
 
-  plugins: [
+  plugins: isProd ? [
     new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify('production')
     }),
@@ -136,5 +136,15 @@ module.exports = {
     new HtmlWebpackPlugin(htmlConfig),
     new HtmlWebpackPlugin(htmlConfig404),
     new SitemapPlugin('http://pollarity.cool', routes),
+  ] : [
+    new webpack.optimize.ModuleConcatenationPlugin(),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+    }),
+    new ExtractTextPlugin(`styles/${chunkFile}.css`),
+    new HtmlWebpackPlugin(htmlConfig),
+    new HtmlWebpackPlugin(htmlConfig404),
+    new SitemapPlugin('http://pollarity.cool', routes),
   ],
 }
+console.log(module.exports.plugins)
