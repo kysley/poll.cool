@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-class SubmitButton extends React.Component {
+class AddButton extends React.Component {
   constructor(props) {
     super(props)
 
@@ -16,20 +16,17 @@ class SubmitButton extends React.Component {
 
   render() {
     const classes = classNames({
-      'create--button': true,
-      '_submit': true,
-      'is-valid': this.props.validOptionSet,
-      'is-invalid': !this.props.validOptionSet,
+      'option--button': true,
     })
     return (
       <button
         className={classes}
         onClick={this.handleSubmit}
       >
-        {this.props.titleText}
+        Add Option
       </button>
     )
   }
 }
 
-export default SubmitButton
+export default AddButton

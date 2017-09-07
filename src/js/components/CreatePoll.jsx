@@ -7,6 +7,8 @@ import { Motion, spring } from 'react-motion'
 
 import TitleButton from './TitleButton'
 import SubmitButton from './SubmitButton'
+import AddButton from './AddButton'
+import Options from './Options'
 
 class CreatePoll extends React.Component {
   constructor(props, context) {
@@ -96,6 +98,12 @@ class CreatePoll extends React.Component {
     })
   }
 
+  handleRemoveOption = (idx) => {
+    this.setState({
+      options: this.state.options.filter((o, oidx) => idx !== oidx)
+    })
+  }
+
   render() {
     return (
       <div className="container full">
@@ -123,28 +131,19 @@ class CreatePoll extends React.Component {
             {value =>
               <div className="col-6-of-12 push-4 create--wrapper" style={{ opacity: value.x }}>
                 <h2 className="create--title">Add Options to {this.state.title}</h2>
-                { this.state.options.map((option, idx) => (
-                  <input
-                    className="create--input option"
-                    placeholder={`Option ${idx + 1}`}
-                    value={option.name}
-                    onChange={e => this.handleOptionNameChange(e, idx)}
-                    key={idx}
-                  />
-                ))}
-                <button
-                  className="option--button"
+                <Options 
+                  options={this.state.options}
+                  onOptChange={this.handleOptionNameChange}
+                  onOptRemove={this.handleRemoveOption}
+                />
+                <AddButton
                   onClick={this.handleAddOption}
-                >
-                  Add Option
-                </button>
+                />
                 <SubmitButton
                   onClick={this.handlePoll}
                   validOptions={this.state.validOptionSet}
                   titleText={this.state.titleText}
-                >
-                  Submit Poll
-                </SubmitButton>
+                />
               </div>
             }
           </Motion>

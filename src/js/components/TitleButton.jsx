@@ -4,7 +4,6 @@ import classNames from 'classnames'
 class TitleButton extends React.Component {
   constructor(props) {
     super(props)
-    this.saveTitle = this.saveTitle.bind(this)
 
     this.state = {
       val: '',
