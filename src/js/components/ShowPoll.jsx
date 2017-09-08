@@ -3,10 +3,14 @@ import { withRouter } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
+import LoadingBar from './LoadingBar'
+import ErrorWrapper from './ErrorWrapper'
+
 const allVotes = gql`
   query allPollData($id: ID!) {
     Poll(id: $id) {
       id
+      title
         options {
           name
           id
@@ -26,6 +30,8 @@ class ShowPoll extends React.Component {
       value: '',
       id: '',
       options: null,
+      title: '',
+      invalidPoll: false,
     }
   }
 
@@ -63,11 +69,6 @@ class ShowPoll extends React.Component {
             }
       `,
       variables: null,
-      updateQuery: (previousState, { subscriptionData }) => {
-        if (subscriptionData) {
-          console.log(subscriptionData)
-        }
-      },
     })
   }
 
@@ -75,6 +76,10 @@ class ShowPoll extends React.Component {
     console.log(nextProps)
     if (nextProps.allVotesQuery.Poll) {
       console.log("there is data")
+    } else {
+      this.setState({
+        invalidPoll: true,
+      })
     }
     if (nextProps.allVotesQuery.Poll.options) {
       const optionsMap = nextProps.allVotesQuery.Poll.options.map(option => ({
@@ -86,8 +91,10 @@ class ShowPoll extends React.Component {
         options: optionsMap,
       })
     }
-    if (nextProps.VoteSub) {
-      console.log(nextProps)
+    if (nextProps.allVotesQuery.Poll.title !== this.state.title) {
+      this.setState({
+        title: nextProps.allVotesQuery.Poll.title,
+      })
     }
   }
 
@@ -104,14 +111,27 @@ class ShowPoll extends React.Component {
 
   render() {
     console.log(this.state.options)
+    const { invalidPoll } = this.state
     return (
-      <div>
-        { !this.props.allVotesQuery.loading && (this.state.options.map((option, idx) => (
-          <div key={idx}>
-            { option.name } || { option.count }
-            <button onClick={() => this.addVote(option.id)}>Vote</button>
-          </div>
-        )))}
+      <div className="container full">
+        {!this.props.allVotesQuery.loading &&
+          <div className="col-12-of-12 fadeInUp results--wrapper">
+          <h1 className="result--title">Results for: {this.state.title}</h1>
+          { !this.props.allVotesQuery.loading && (this.state.options.map((option, idx) => (
+            <div className="option"key={idx}>
+              <h2 className="option--name">{ option.name }</h2>
+              <span className="option--count">{ option.count } vote(s)</span>
+              <button className="option--vote" onClick={() => this.addVote(option.id)}>Vote</button>
+            </div>
+          )))}
+        </div>
+      }
+      {invalidPoll && this.props.allVotesQuery.loading &&
+        <ErrorWrapper 
+          msg="Oof! Looks like something went wrong..."
+          tip="Check to make sure you have a valid poll link!"
+         />
+      }
       </div>
     )
   }
