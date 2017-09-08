@@ -3,4 +3,5 @@
 @import 'base/animations';
 @import 'base/grid';
 
-@import 'components/createpoll'
+@import 'components/createpoll';
+@import 'components/showpoll';
