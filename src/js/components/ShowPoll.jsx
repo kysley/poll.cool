@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import LoadingBar from './LoadingBar'
 import ErrorWrapper from './ErrorWrapper'
 
 const allVotes = gql`
