@@ -10,13 +10,18 @@ class Options extends React.Component {
     }
 	}
 
-  editOption = (e, idx) => {
-    console.log(this.props)
-    this.props.onOptChange(e, idx)
+  handleOptionNameChange = (e, idx) => {
+    const newOptions = this.props.options.map((option, oidx) => {
+      if (idx !== oidx) return option
+      return { name: e.target.value}
+    })
+    this.props.optionNameChangeCallback(newOptions)
   }
 
-  removeOption = (idx) => {
-    this.props.onOptRemove(idx)
+  handleRemoveOption = (idx) => {
+    let data = this.props.options
+    data = this.props.options.filter((o, oidx) => idx !== oidx)
+    this.props.removeOptionCallback(data)
   }
 
   render() {
@@ -28,10 +33,9 @@ class Options extends React.Component {
           className="create--input option"
           placeholder={`Option ${idx + 1}`}
           value={option.name}
-          onChange={e => this.editOption(e, idx)}
-          
+          onChange={e => this.handleOptionNameChange(e, idx)}
         />
-        <span onClick={() => this.removeOption(idx)}>-</span>
+        <span onClick={() => this.handleRemoveOption(idx)}>-</span>
         </div>
       ))}
       </div>

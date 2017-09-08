@@ -13,8 +13,6 @@ import Options from './Options'
 class CreatePoll extends React.Component {
   constructor(props, context) {
     super(props, context)
-    this.handleOptionNameChange = this.handleOptionNameChange.bind(this)
-    this.handleSaveTitle = this.handleSaveTitle.bind(this)
 
     this.state = {
       title: '',
@@ -53,14 +51,6 @@ class CreatePoll extends React.Component {
       })
   }
 
-  handleSaveTitle = () => {
-    if (this.state.titleText === 'Continue') {
-      this.setState({
-        validTitle: true,
-      })
-    }
-  }
-
   handleTitleChange = (e) => {
     const eTitle = e.target.value
     const trimmedTitle = eTitle.replace(/^\s+/, '').replace(/\s+$/, '')
@@ -77,32 +67,26 @@ class CreatePoll extends React.Component {
     }
   }
 
-  handleOptionNameChange = (e, idx) => {
-    const newOptions = this.state.options.map((option, oidx) => {
-      if (idx !== oidx) return option
-      return { name: e.target.value }
-    })
-
-    this.setState({ options: newOptions })
+  saveTitleCallback = (data) => {
+    this.setState({ validTitle: data.validTitle })
   }
 
-  handleOptionChange = (e) => {
-    this.setState({
-      name: e.target.value,
-    })
+  optionNameChangeCallback = (data) => {
+    this.setState({ options: data })
   }
 
-  handleAddOption = () => {
-    this.setState({
-      options: this.state.options.concat([{ name: '' }]),
-    })
+  optionChangeCallback = (data) => {
+    this.setState({ name: data.name })
   }
 
-  handleRemoveOption = (idx) => {
-    this.setState({
-      options: this.state.options.filter((o, oidx) => idx !== oidx)
-    })
+  addOptionCallback = (data) => {
+    this.setState({ options: data })
   }
+
+  removeOptionCallback = (data) => {
+    this.setState({ options: data })
+  }
+
 
   render() {
     return (
@@ -119,8 +103,7 @@ class CreatePoll extends React.Component {
               onChange={e => this.handleTitleChange(e)}
             />
             <TitleButton
-              validTitle={this.state.titleText}
-              handleSaveTitle={this.handleSaveTitle}
+              saveTitleCallback={this.saveTitleCallback}
               titleText={this.state.titleText}
             >
               {this.state.titleText}
@@ -133,11 +116,12 @@ class CreatePoll extends React.Component {
                 <h2 className="create--title">Add Options to {this.state.title}</h2>
                 <Options 
                   options={this.state.options}
-                  onOptChange={this.handleOptionNameChange}
-                  onOptRemove={this.handleRemoveOption}
+                  optionNameChangeCallback={this.optionNameChangeCallback}
+                  removeOptionCallback={this.removeOptionCallback}
                 />
                 <AddButton
-                  onClick={this.handleAddOption}
+                  options={this.state.options}
+                  addOptionCallback={this.addOptionCallback}
                 />
                 <SubmitButton
                   onClick={this.handlePoll}

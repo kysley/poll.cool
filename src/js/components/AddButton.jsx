@@ -10,8 +10,10 @@ class AddButton extends React.Component {
     }
   }
 
-  handleSubmit = () => {
-    this.props.onClick()
+  handleAddOption = () => {
+    let data = this.props.options
+    data = this.props.options.concat([{ name: '' }])
+    this.props.addOptionCallback(data)
   }
 
   render() {
@@ -21,7 +23,7 @@ class AddButton extends React.Component {
     return (
       <button
         className={classes}
-        onClick={this.handleSubmit}
+        onClick={() => this.handleAddOption()}
       >
         Add Option
       </button>

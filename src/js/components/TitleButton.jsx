@@ -10,11 +10,13 @@ class TitleButton extends React.Component {
     }
   }
 
-  saveTitle = (e) => {
-    this.props.handleSaveTitle()
-    this.setState({
-      val: e.target.value,
-    })
+  handleSaveTitle = () => {
+    const data = []
+    data.validTitle = false
+    if (this.props.titleText === 'Continue') {
+      data.validTitle = true
+    }
+    this.props.saveTitleCallback(data)
   }
 
   render() {
@@ -26,7 +28,7 @@ class TitleButton extends React.Component {
     return (
       <button
         className={classes}
-        onClick={e => this.saveTitle(e)}
+        onClick={() => this.handleSaveTitle()}
       >
         {this.props.titleText}
       </button>
