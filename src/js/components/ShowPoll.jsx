@@ -21,6 +21,16 @@ const allVotes = gql`
     }
   `
 
+const submitVote = gql`
+  mutation addVote($id: ID!) {
+    createVote(
+      optionId: $id
+    ) {
+      id
+    }
+  }
+`
+
 class ShowPoll extends React.Component {
   constructor(props) {
     super(props)
@@ -104,8 +114,12 @@ class ShowPoll extends React.Component {
     })
   }
 
-  addVote = (id) => {
-    console.log(`this is the id: ${id}`)
+  addVote = ({ option }) => {
+    const { id } = option
+    this.props.submitVote({ id })
+      .then((res) => {
+        console.log('vote set!')
+      })
   }
 
   render() {
@@ -115,33 +129,44 @@ class ShowPoll extends React.Component {
       <div className="container full">
         {!this.props.allVotesQuery.loading &&
           <div className="col-12-of-12 fadeInUp results--wrapper">
-          <h1 className="result--title">Results for: {this.state.title}</h1>
-          { !this.props.allVotesQuery.loading && (this.state.options.map((option, idx) => (
-            <div className="option"key={idx}>
-              <h2 className="option--name">{ option.name }</h2>
-              <span className="option--count">{ option.count } vote(s)</span>
-              <button className="option--vote" onClick={() => this.addVote(option.id)}>Vote</button>
-            </div>
-          )))}
-        </div>
-      }
-      {invalidPoll && this.props.allVotesQuery.loading &&
-        <ErrorWrapper 
+            <h1 className="result--title">Results for: {this.state.title}</h1>
+            { this.state.options.map((option, idx) => (
+              <div className="option" key={idx}>
+                <h2 className="option--name">{ option.name }</h2>
+                <span className="option--count">{ option.count } vote(s)</span>
+                <button className="option--vote" onClick={() => this.addVote({ option })}>Vote</button>
+              </div>
+            ))}
+          </div>
+        }
+        {invalidPoll && this.props.allVotesQuery.loading &&
+        <ErrorWrapper
           msg="Oof! Looks like something went wrong..."
           tip="Check to make sure you have a valid poll link!"
-         />
-      }
+        />
+        }
       </div>
     )
   }
 }
 
-const VoteSub = graphql(allVotes, {
-  options: ownProps => ({
-    variables: {
-      id: ownProps.match.params.id,
-    },
+const AllFunctions = compose(
+  graphql(allVotes, {
+    options: ownProps => ({
+      variables: {
+        id: ownProps.match.params.id,
+      },
+    }),
+    name: 'allVotesQuery',
   }),
-  name: 'allVotesQuery' })(ShowPoll)
+  graphql(submitVote, {
+    props: ({ ownProps, mutate }) => ({
+      submitVote: ({ id }) =>
+        mutate({
+          variables: { id },
+        }),
+    }),
+  }),
+)(ShowPoll)
 
-export default withRouter(VoteSub)
+export default withRouter(AllFunctions)

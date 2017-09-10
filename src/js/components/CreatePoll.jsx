@@ -30,7 +30,7 @@ class CreatePoll extends React.Component {
     const { options } = this.state
     this.props.submit({ title })
       .then((res) => {
-        console.log('success!')
+        console.log('poll created!')
         this.setState({
           id: res.data.createPoll.id,
         })
@@ -114,7 +114,7 @@ class CreatePoll extends React.Component {
             {value =>
               <div className="col-6-of-12 push-4 create--wrapper" style={{ opacity: value.x }}>
                 <h2 className="create--title">Add Options to {this.state.title}</h2>
-                <Options 
+                <Options
                   options={this.state.options}
                   optionNameChangeCallback={this.optionNameChangeCallback}
                   removeOptionCallback={this.removeOptionCallback}
