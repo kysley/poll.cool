@@ -147,4 +147,3 @@ module.exports = {
     new SitemapPlugin('http://pollarity.cool', routes),
   ],
 }
-console.log(module.exports.plugins)
