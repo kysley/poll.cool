@@ -67,6 +67,7 @@ class ShowPoll extends React.Component {
         ) {
           mutation
             node {
+              createdAt
                 option {
                   id
                     _votesMeta {
@@ -79,13 +80,11 @@ class ShowPoll extends React.Component {
       `,
       variables: null,
     })
+    console.log(this.state)
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
-    if (nextProps.allVotesQuery.Poll) {
-      console.log("there is data")
-    } else {
+    if (!nextProps.allVotesQuery.Poll) {
       this.setState({
         invalidPoll: true,
       })
@@ -123,15 +122,14 @@ class ShowPoll extends React.Component {
   }
 
   render() {
-    console.log(this.state.options)
     const { invalidPoll } = this.state
     return (
       <div className="container full">
         {!this.props.allVotesQuery.loading &&
           <div className="col-12-of-12 fadeInUp results--wrapper">
             <h1 className="result--title">Results for: {this.state.title}</h1>
-            { this.state.options.map((option, idx) => (
-              <div className="option" key={idx}>
+            { this.state.options && this.state.options.map((option, idx) => (
+              <div className="result--wrapper" key={idx}>
                 <h2 className="option--name">{ option.name }</h2>
                 <span className="option--count">{ option.count } vote(s)</span>
                 <button className="option--vote" onClick={() => this.addVote({ option })}>Vote</button>

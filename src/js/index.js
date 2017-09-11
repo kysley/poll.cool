@@ -4,8 +4,10 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import ApolloClient, { createNetworkInterface } from 'apollo-client'
 import { SubscriptionClient, addGraphQLSubscriptions } from 'subscriptions-transport-ws'
 import { ApolloProvider } from 'react-apollo'
+
 import CreatePoll from './components/CreatePoll'
 import ShowPoll from './components/ShowPoll'
+import Header from './components/Header'
 
 import styles from '../styles/app.css'
 
@@ -32,10 +34,13 @@ const client = new ApolloClient({
 ReactDOM.render((
   <ApolloProvider client={client}>
     <Router>
-      <Switch>
-        <Route path="/" exact component={CreatePoll} />
-        <Route path="/poll/:id" exact component={ShowPoll} />
-      </Switch>
+      <div>
+        <Header />
+        <Switch>
+          <Route path="/" exact component={CreatePoll} />
+          <Route path="/poll/:id" exact component={ShowPoll} />
+        </Switch>
+      </div>
     </Router>
   </ApolloProvider>
 ), document.getElementById('app'))

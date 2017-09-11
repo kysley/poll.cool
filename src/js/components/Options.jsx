@@ -20,22 +20,23 @@ class Options extends React.Component {
 
   handleRemoveOption = (idx) => {
     let data = this.props.options
+    if (data.length == 2) return
     data = this.props.options.filter((o, oidx) => idx !== oidx)
     this.props.removeOptionCallback(data)
   }
 
   render() {
     return (
-      <div>
+      <div className="option--wrapper">
       { this.props.options.map((option, idx) => (
-        <div key={idx}>
+        <div className="option--self" key={idx}>
         <input
           className="create--input option"
           placeholder={`Option ${idx + 1}`}
           value={option.name}
           onChange={e => this.handleOptionNameChange(e, idx)}
         />
-        <span onClick={() => this.handleRemoveOption(idx)}>-</span>
+        <span className="option--delete" onClick={() => this.handleRemoveOption(idx)}>REMOVE</span>
         </div>
       ))}
       </div>

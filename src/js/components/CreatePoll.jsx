@@ -1,5 +1,5 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Redirect } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import classNames from 'classnames'
@@ -16,11 +16,12 @@ class CreatePoll extends React.Component {
 
     this.state = {
       title: '',
-      options: [{ name: '', valid: false }, { name: '', valid: false }],
+      options: [{ name: ''}, { name: ''}],
       id: '',
       validTitle: false,
       titleText: 'Set Poll Title',
       validOptionSet: false,
+      created: false,
     }
   }
 
@@ -39,15 +40,19 @@ class CreatePoll extends React.Component {
         const { id } = this.state
         options.forEach((opt) => {
           const name = opt.name
+          const trimmedName = name.replace(/^\s+/, '').replace(/\s+$/, '')
+          if (trimmedName === '') {
+            return;
+          } else {
           this.props.submitOpt({ id, name })
             .then((res) => {
               console.log('opt success' + res)
             })
+          }
         })
       })
       .then(() => {
-        const redirectUrl = `/poll/${this.state.id}`
-        this.props.history.push(redirectUrl)
+        setTimeout(function() { this.setState({created: true,}); }.bind(this), 500);
       })
   }
 
@@ -89,10 +94,11 @@ class CreatePoll extends React.Component {
 
 
   render() {
+    const { created } = this.state
     return (
       <div className="container full">
         { !this.state.validTitle ? (
-          <div className="col-6-of-12 push-4 fadeInUp create--wrapper">
+          <div className="col-12-of-12 fadeInUp create--wrapper">
             <h1 className="create--title">Create a new Poll</h1>
             <input
               className="create--input"
@@ -112,7 +118,7 @@ class CreatePoll extends React.Component {
         ) : (
           <Motion defaultStyle={{ x: 0 }} style={{ x: spring(1) }}>
             {value =>
-              <div className="col-6-of-12 push-4 create--wrapper" style={{ opacity: value.x }}>
+              <div className="col-12-of-12 create--wrapper" style={{ opacity: value.x }}>
                 <h2 className="create--title">Add Options to {this.state.title}</h2>
                 <Options
                   options={this.state.options}
@@ -132,6 +138,9 @@ class CreatePoll extends React.Component {
             }
           </Motion>
         )}
+        {created &&
+          <Redirect push to={`/poll/${this.state.id}`} />
+        }
       </div>
     )
   }
