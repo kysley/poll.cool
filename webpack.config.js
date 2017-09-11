@@ -119,6 +119,7 @@ module.exports = {
     extensions: ['.js', '.jsx', '.scss'],
     modules: ['node_modules'],
     alias: {
+      img: path.join(__dirname, 'src/img'),
       components: path.join(__dirname, 'src/js/components'),
     },
   },
