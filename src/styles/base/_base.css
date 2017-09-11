@@ -10,7 +10,7 @@ body {
   font-family: var(--sansSerif);
   font-size: 1rem;
   font-weight: normal;
-  line-height: 1.5rem;
+  line-height: normal;
   letter-spacing: .02rem;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -28,7 +28,13 @@ a {
 }
 
 .logo {
-  height: 2.25em;
+  height: 3.25em;
+}
+
+.header {
+  margin-left: 20vw;
+  display: inline-block;
+  padding-top: 2rem;
 }
 
 .hidden {

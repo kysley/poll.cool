@@ -8,6 +8,11 @@
   src: url("../fonts/Theinhardt-Regular.woff");
 }
 
+$red: #F25757;
+$green: #5EFFC4;
+$purple: #635EFF;
+$blue: #78E3FD;
+
 :root {
   --black: #000000;
   --blue: rgb(0, 0, 255);
