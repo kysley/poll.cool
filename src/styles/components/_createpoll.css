@@ -109,3 +109,13 @@
     background: darken($red, 10%) !important;
   }
 }
+
+.error--alert{
+  lost-center: flex;
+  margin-top: 5em;
+  span {
+    color: $red;
+    lost-align: center;
+    font-size: 1.3rem;
+  }
+}
