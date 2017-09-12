@@ -1,35 +1,27 @@
 import React from 'react'
 import classNames from 'classnames'
 
-class SubmitButton extends React.Component {
-  constructor(props) {
-    super(props)
+const SubmitButton = (props) => {
 
-    this.state = {
-      val: '',
-    }
+  this.handleSubmit = () => {
+    props.onClick()
   }
 
-  handleSubmit = () => {
-    this.props.onClick()
-  }
-
-  render() {
-    const classes = classNames({
-      'create--button': true,
-      '_submit': true,
-      'is-valid': this.props.validOptionSet,
-      'is-invalid': !this.props.validOptionSet,
-    })
-    return (
-      <button
-        className={classes}
-        onClick={this.handleSubmit}
-      >
-        {this.props.titleText}
-      </button>
-    )
-  }
+  const classes = classNames({
+    'create--button': true,
+    '_submit': true,
+    'is-valid': props.validOptionSet,
+    'is-invalid': !props.validOptionSet,
+  })
+  
+  return (
+    <button
+      className={classes}
+      onClick={this.handleSubmit}
+    >
+      {props.titleText}
+    </button>
+  )
 }
 
 export default SubmitButton

@@ -1,34 +1,26 @@
 import React from 'react'
 import classNames from 'classnames'
 
-class AddButton extends React.Component {
-  constructor(props) {
-    super(props)
+const AddButton = (props) => {
 
-    this.state = {
-      val: '',
-    }
+  this.handleAddOption = () => {
+    let data = props.options
+    data = props.options.concat([{ name: '' }])
+    props.addOptionCallback(data)
   }
 
-  handleAddOption = () => {
-    let data = this.props.options
-    data = this.props.options.concat([{ name: '' }])
-    this.props.addOptionCallback(data)
-  }
-
-  render() {
-    const classes = classNames({
-      'option--button': true,
-    })
-    return (
-      <button
-        className={classes}
-        onClick={() => this.handleAddOption()}
-      >
-        Add Option
-      </button>
-    )
-  }
+  const classes = classNames({
+    'option--button': true,
+  })
+  
+  return (
+    <button
+      className={classes}
+      onClick={() => this.handleAddOption()}
+    >
+      Add Option
+    </button>
+  )
 }
 
 export default AddButton

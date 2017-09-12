@@ -9,6 +9,7 @@ import TitleButton from './TitleButton'
 import SubmitButton from './SubmitButton'
 import AddButton from './AddButton'
 import Options from './Options'
+import ErrorAlert from './ErrorAlert'
 
 class CreatePoll extends React.Component {
   constructor(props, context) {
@@ -19,6 +20,8 @@ class CreatePoll extends React.Component {
       options: [{ name: ''}, { name: ''}],
       id: '',
       validTitle: false,
+      validTitleError: null,
+      errorInfo: [],
       titleText: 'Set Poll Title',
       validOptionSet: false,
       created: false,
@@ -69,11 +72,21 @@ class CreatePoll extends React.Component {
         title: eTitle,
         titleText: 'Continue',
       })
+      setTimeout(() => { this.setState({validTitleError: false,}) }, 301);
     }
   }
 
   saveTitleCallback = (data) => {
     this.setState({ validTitle: data.validTitle })
+    if (!data.validTitle) {
+      const errorInfo = []
+      errorInfo.msg = 'Ack!'
+      errorInfo.tip = 'The Title can\'t be empty.'
+      this.setState({
+        validTitleError: true,
+        errorInfo: errorInfo
+      })
+    }
   }
 
   optionNameChangeCallback = (data) => {
@@ -140,6 +153,12 @@ class CreatePoll extends React.Component {
         )}
         {created &&
           <Redirect push to={`/poll/${this.state.id}`} />
+        }
+        { this.state.validTitleError && this.state.validTitleError !== null &&
+          <ErrorAlert 
+            errorInfo={this.state.errorInfo}
+            active={this.state.titleText}
+          />
         }
       </div>
     )
