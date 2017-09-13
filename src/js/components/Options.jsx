@@ -4,7 +4,12 @@ import React from 'react'
 const Options = (props) => {
 
   this.handleOptionNameChange = (e, idx) => {
-    const newOptions = props.options.map((option, oidx) => {
+    let data = props.options
+    if (props.options.length === idx+1) {
+      data = props.options.concat([{ name: '' }])
+      props.addOptionCallback(data)
+    }
+    const newOptions = data.map((option, oidx) => {
       if (idx !== oidx) return option
       return { name: e.target.value}
     })

@@ -5,9 +5,30 @@
 .create--title {
   font-family: TB;
   font-size: 3rem;
-  display: block;
   lost-align: center;
   padding-bottom: 4rem;
+}
+
+.title--editor-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.edit--title {
+  font-family: TB;
+  font-size: 3rem;
+  lost-align: center;
+}
+
+.edit--input {
+  border: 0;
+  border-bottom: 4px dotted #635EFF;
+  margin-left: .25em;
+  font-family: TB;
+  width: 20vw;
+  outline: 0;
+  font-size: 3rem;
+  margin-top: 4px;
 }
 
 .create--input {

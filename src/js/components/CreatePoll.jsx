@@ -4,6 +4,7 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import classNames from 'classnames'
 import { Motion, spring } from 'react-motion'
+import Promise from 'bluebird'
 
 import TitleButton from './TitleButton'
 import SubmitButton from './SubmitButton'
@@ -30,33 +31,38 @@ class CreatePoll extends React.Component {
 
   handlePoll = () => {
     console.log('handle poll')
-    const { title } = this.state
-    const { options } = this.state
-    this.props.submit({ title })
-      .then((res) => {
-        console.log('poll created!')
-        this.setState({
-          id: res.data.createPoll.id,
+    if (this.syntheticTitleSave()) {
+      const { title } = this.state
+      const { options } = this.state
+      this.props.submit({ title })
+        .then((res) => {
+          console.log('poll created!')
+          this.setState({
+            id: res.data.createPoll.id,
+          })
         })
-      })
-      .then(() => {
-        const { id } = this.state
-        options.forEach((opt) => {
-          const name = opt.name
-          const trimmedName = name.replace(/^\s+/, '').replace(/\s+$/, '')
-          if (trimmedName === '') {
-            return;
-          } else {
-          this.props.submitOpt({ id, name })
-            .then((res) => {
-              console.log('opt success' + res)
-            })
-          }
+        .then(() => {
+          const { id } = this.state
+          options.forEach((opt) => {
+            const name = opt.name
+            const trimmedName = name.replace(/^\s+/, '').replace(/\s+$/, '')
+            if (trimmedName === '') {
+              return;
+            } else {
+            this.props.submitOpt({ id, name })
+              .then((res) => {
+                console.log(res)
+              })
+            }
+          })
         })
-      })
-      .then(() => {
-        setTimeout(function() { this.setState({created: true,}); }.bind(this), 500);
-      })
+        .then(() => {
+          setTimeout(function() { this.setState({created: true,}); }.bind(this), 500);
+        })
+    } else {
+      console.log('poll not submitting')
+      return
+    }
   }
 
   handleTitleChange = (e) => {
@@ -72,8 +78,36 @@ class CreatePoll extends React.Component {
         title: eTitle,
         titleText: 'Continue',
       })
-      setTimeout(() => { this.setState({validTitleError: false,}) }, 301);
+      
     }
+  }
+
+  syntheticTitleSave = () => {
+    const { title } = this.state
+    const trimmedTitle = title.replace(/^\s+/, '').replace(/\s+$/, '')
+    if (trimmedTitle === '') {
+      const errorInfo = []
+      errorInfo.msg = 'Ack!'
+      errorInfo.tip = 'The Title can\'t be empty.'
+      this.setState({
+        validTitleError: true,
+        errorInfo: errorInfo,
+        titleText: 'Set Poll Title',
+      })
+      return false
+      console.log('hit')
+    } else {
+      return true
+      setTimeout(() => { this.setState({validTitleError: false, titleText: 'Continue',}) }, 301);
+    }
+  }
+
+  syntheticTitleEdit = (e) => {
+    const eTitle = e.target.value
+    this.setState({
+      title: eTitle,
+      titleText: 'Continue',
+    })
   }
 
   saveTitleCallback = (data) => {
@@ -132,11 +166,20 @@ class CreatePoll extends React.Component {
           <Motion defaultStyle={{ x: 0 }} style={{ x: spring(1) }}>
             {value =>
               <div className="col-12-of-12 create--wrapper" style={{ opacity: value.x }}>
-                <h2 className="create--title">Add Options to {this.state.title}</h2>
+                <div className="title--editor-wrapper">
+                  <h2 className="edit--title">Add Options to </h2>
+                  <input
+                    className="edit--input"
+                    value={this.state.title}
+                    onChange={e => this.syntheticTitleEdit(e)}
+                    onBlur={() => this.syntheticTitleSave()}
+                  />
+                </div>
                 <Options
                   options={this.state.options}
                   optionNameChangeCallback={this.optionNameChangeCallback}
                   removeOptionCallback={this.removeOptionCallback}
+                  addOptionCallback={this.addOptionCallback}
                 />
                 <AddButton
                   options={this.state.options}
