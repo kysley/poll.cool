@@ -4,7 +4,6 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import classNames from 'classnames'
 import { Motion, spring } from 'react-motion'
-import Promise from 'bluebird'
 
 import TitleButton from './TitleButton'
 import SubmitButton from './SubmitButton'
@@ -21,7 +20,7 @@ class CreatePoll extends React.Component {
       options: [{ name: ''}, { name: ''}],
       id: '',
       validTitle: false,
-      validTitleError: null,
+      validityError: null,
       errorInfo: [],
       titleText: 'Set Poll Title',
       validOptionSet: false,
@@ -31,7 +30,7 @@ class CreatePoll extends React.Component {
 
   handlePoll = () => {
     console.log('handle poll')
-    if (this.syntheticTitleSave()) {
+    if (this.syntheticTitleSave() && this.simulateOptionSubmission()) {
       const { title } = this.state
       const { options } = this.state
       this.props.submit({ title })
@@ -82,6 +81,34 @@ class CreatePoll extends React.Component {
     }
   }
 
+  simulateOptionSubmission = () => {
+    const { options } = this.state
+    let validCount = 0
+
+    options.forEach((opt) => {
+      const name = opt.name
+      const trimmedName = name.replace(/^\s+/, '').replace(/\s+$/, '')
+      if (trimmedName !== '') {
+        validCount++
+      }
+    })
+    if (validCount >= 2) {
+      this.setState({
+        validOptionSet: true,
+      })
+      return true
+    } else {
+      const errorInfo = []
+      errorInfo.msg = 'Ack!'
+      errorInfo.tip = 'You need at least 2 non-empty options!'
+      this.setState({
+        validityError: true,
+        errorInfo: errorInfo,
+        titleText: 'Check Options',
+      })
+    }
+  }
+
   syntheticTitleSave = () => {
     const { title } = this.state
     const trimmedTitle = title.replace(/^\s+/, '').replace(/\s+$/, '')
@@ -90,7 +117,7 @@ class CreatePoll extends React.Component {
       errorInfo.msg = 'Ack!'
       errorInfo.tip = 'The Title can\'t be empty.'
       this.setState({
-        validTitleError: true,
+        validityError: true,
         errorInfo: errorInfo,
         titleText: 'Set Poll Title',
       })
@@ -98,7 +125,7 @@ class CreatePoll extends React.Component {
       console.log('hit')
     } else {
       return true
-      setTimeout(() => { this.setState({validTitleError: false, titleText: 'Continue',}) }, 301);
+      setTimeout(() => { this.setState({validityError: false, titleText: 'Continue',}) }, 301);
     }
   }
 
@@ -117,14 +144,14 @@ class CreatePoll extends React.Component {
       errorInfo.msg = 'Ack!'
       errorInfo.tip = 'The Title can\'t be empty.'
       this.setState({
-        validTitleError: true,
-        errorInfo: errorInfo
+        validityError: true,
+        errorInfo: errorInfo,
       })
     }
   }
 
   optionNameChangeCallback = (data) => {
-    this.setState({ options: data })
+    this.setState({ options: data, titleText: 'Continue' })
   }
 
   optionChangeCallback = (data) => {
@@ -197,8 +224,8 @@ class CreatePoll extends React.Component {
         {created &&
           <Redirect push to={`/poll/${this.state.id}`} />
         }
-        { this.state.validTitleError && this.state.validTitleError !== null &&
-          <ErrorAlert 
+        { this.state.validityError && this.state.validityError !== null &&
+          <ErrorAlert
             errorInfo={this.state.errorInfo}
             active={this.state.titleText}
           />
