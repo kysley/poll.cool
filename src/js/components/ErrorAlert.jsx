@@ -8,8 +8,8 @@ const ErrorAlert = (props) => {
     'dur-3': true,
     'fadeIn': props.active !== 'Continue',
     'fadeOut': props.active === 'Continue',
+    'voted-info': props.active === '',
   })
-
   return (
   	<div className={classes}>
       <span>{props.errorInfo.msg}&nbsp; {props.errorInfo.tip}</span>

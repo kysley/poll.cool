@@ -2,7 +2,6 @@ import React from 'react'
 import { withRouter, Redirect } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import classNames from 'classnames'
 import { Motion, spring } from 'react-motion'
 
 import TitleButton from './TitleButton'
@@ -29,13 +28,11 @@ class CreatePoll extends React.Component {
   }
 
   handlePoll = () => {
-    console.log('handle poll')
     if (this.syntheticTitleSave() && this.simulateOptionSubmission()) {
       const { title } = this.state
       const { options } = this.state
       this.props.submit({ title })
         .then((res) => {
-          console.log('poll created!')
           this.setState({
             id: res.data.createPoll.id,
           })
@@ -50,7 +47,6 @@ class CreatePoll extends React.Component {
             } else {
             this.props.submitOpt({ id, name })
               .then((res) => {
-                console.log(res)
               })
             }
           })
@@ -59,7 +55,6 @@ class CreatePoll extends React.Component {
           setTimeout(function() { this.setState({created: true,}); }.bind(this), 500);
         })
     } else {
-      console.log('poll not submitting')
       return
     }
   }
@@ -122,7 +117,6 @@ class CreatePoll extends React.Component {
         titleText: 'Set Poll Title',
       })
       return false
-      console.log('hit')
     } else {
       return true
       setTimeout(() => { this.setState({validityError: false, titleText: 'Continue',}) }, 301);

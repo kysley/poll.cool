@@ -2,8 +2,10 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
+import classNames from 'classnames'
 
 import ErrorWrapper from './ErrorWrapper'
+import ErrorAlert from './ErrorAlert'
 
 const allVotes = gql`
   query allPollData($id: ID!) {
@@ -36,11 +38,14 @@ class ShowPoll extends React.Component {
     super(props)
 
     this.state = {
-      value: '',
       id: '',
       options: null,
       title: '',
+      errorInfo: {'msg': 'Nice!', 'tip': 'You have already voted on this poll.'},
       invalidPoll: false,
+      hasVoted: false,
+      triedToVote: false,
+      voteSuccessful: null,
     }
   }
 
@@ -50,7 +55,15 @@ class ShowPoll extends React.Component {
 
   componentDidMount() {
     const { id } = this.state
-    console.log(this.props)
+    const voted = localStorage.getItem(id)
+    if (voted === 'voted') {
+      this.setState({
+        hasVoted: true,
+      })
+    }
+    if (voted === null) {
+      localStorage.setItem(id, 'visited')
+    }
     this.voteSubscription = this.props.allVotesQuery.subscribeToMore({
       document: gql`
       subscription watchVotes{
@@ -80,7 +93,6 @@ class ShowPoll extends React.Component {
       `,
       variables: null,
     })
-    console.log(this.state)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -114,14 +126,28 @@ class ShowPoll extends React.Component {
   }
 
   addVote = ({ option }) => {
+    this.setState({
+      triedToVote: true,
+    })
     const { id } = option
-    this.props.submitVote({ id })
-      .then((res) => {
-        console.log('vote set!')
-      })
+    const { hasVoted } = this.state
+    if (!hasVoted) {
+      this.props.submitVote({ id })
+        .then((res) => {
+          this.setState({
+            hasVoted: true,
+            voteSuccessful: true,
+          })
+          localStorage.setItem(this.state.id, 'voted')
+        })
+    }
   }
 
   render() {
+    const classes = classNames({
+      'option--vote': true,
+      'has-voted': this.state.hasVoted,
+    })
     const { invalidPoll } = this.state
     return (
       <div className="container full">
@@ -132,9 +158,15 @@ class ShowPoll extends React.Component {
               <div className="result--wrapper" key={idx}>
                 <h2 className="option--name">{ option.name }</h2>
                 <span className="option--count">{ option.count } vote(s)</span>
-                <button className="option--vote" onClick={() => this.addVote({ option })}>Vote</button>
+                <button className={classes} onClick={() => this.addVote({ option })}>Vote</button>
               </div>
             ))}
+            { this.state.hasVoted &&
+              <ErrorAlert
+                errorInfo={this.state.errorInfo}
+                active=""
+              />
+            }
           </div>
         }
         {invalidPoll && this.props.allVotesQuery.loading &&
