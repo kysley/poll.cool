@@ -13,7 +13,6 @@
   box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.07);
   width: 50%;
   min-height: 5em;
-  /*padding-left: .5rem;*/
   margin-bottom: 1.5em;
   border-radius: 5px;
   lost-align: vertical;
@@ -27,8 +26,6 @@
   }
 }
 
-/*This is a fucking mess please dont let this hacky css get into prod...
-  HOW HARD CAN IT BE TO FLOAT IT RIGHT*/
 .option--vote {
   border: none;
   outline: 0;
@@ -47,6 +44,10 @@
   &:hover {
     transform: translateY(2px);
     background: darken($green, 10%);
+  }
+  &.has-voted {
+    background: $grey !important;
+    cursor: not-allowed;
   }
 }
 

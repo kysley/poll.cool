@@ -95,7 +95,6 @@
     transform: translateY(2px);
   }
   &._submit {
-    width: 30%;
     lost-align: center;
   }
 }
@@ -118,12 +117,34 @@
   }
 }
 
-.error--alert{
+.error--alert {
+  display: block !important;
   lost-center: flex;
   margin-top: 5em;
+  color: $red;
+  &.voted-info {
+    color: $purple;
+  }
   span {
-    color: $red;
     lost-align: center;
     font-size: 1.3rem;
+  }
+}
+
+@media (--mobile) {
+  .create--title {
+    font-size: 2.6rem;
+  }
+  .create--input {
+    width: 80%;
+  }
+  .edit--input, .edit--title {
+    font-size: 2.4rem;
+  }
+  .option--self {
+    width: 90%;
+  }
+  .create--button._submit {
+    width: 30%
   }
 }
