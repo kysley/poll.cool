@@ -59,6 +59,7 @@
   font-weight: initial;
   margin-right: 2em;
   width: 50%;
+  word-wrap: break-word;
 }
 
 .error--wrapper {
