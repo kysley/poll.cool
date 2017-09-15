@@ -31,6 +31,7 @@ const Options = (props) => {
         className="create--input option"
         placeholder={`Option ${idx + 1}`}
         value={option.name}
+        maxLength={140}
         onChange={e => this.handleOptionNameChange(e, idx)}
       />
       <span className="option--delete" onClick={() => this.handleRemoveOption(idx)}>REMOVE</span>

@@ -148,3 +148,12 @@
     width: 30%
   }
 }
+
+@media (--desktop-medium) {
+  .create--input {
+    width: 40%;
+  }
+  .option--self {
+    width: 50%;
+  }
+}

@@ -174,6 +174,8 @@ class CreatePoll extends React.Component {
               placeholder="Poll Title"
               id="title"
               autoComplete={false}
+              autoFocus={true}
+              maxLength={84}
               onChange={e => this.handleTitleChange(e)}
             />
             <TitleButton

@@ -35,4 +35,5 @@ $grey: #DADADA;
   --sansSerifBold: 'TB', var(--baseFont);
 }
 
-@custom-media --mobile (width < 750px);
+@custom-media --mobile (width < 900px);
+@custom-media --desktop-medium (901px < width < 1267px);
