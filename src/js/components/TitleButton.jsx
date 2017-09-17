@@ -2,7 +2,6 @@ import React from 'react'
 import classNames from 'classnames'
 
 const TitleButton = (props) => {
-
   this.handleSaveTitle = () => {
     const data = []
     data.validTitle = false

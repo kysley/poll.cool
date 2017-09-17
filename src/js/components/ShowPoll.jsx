@@ -41,7 +41,7 @@ class ShowPoll extends React.Component {
       id: '',
       options: null,
       title: '',
-      errorInfo: {'msg': 'Nice!', 'tip': 'You have already voted on this poll.'},
+      errorInfo: { msg: 'Nice!', tip: 'You have already voted on this poll.' },
       invalidPoll: false,
       hasVoted: false,
       triedToVote: false,

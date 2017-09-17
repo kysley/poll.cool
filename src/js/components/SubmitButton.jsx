@@ -2,7 +2,6 @@ import React from 'react'
 import classNames from 'classnames'
 
 const SubmitButton = (props) => {
-
   this.handleSubmit = () => {
     props.onClick()
   }
@@ -13,7 +12,7 @@ const SubmitButton = (props) => {
     'is-valid': props.validOptionSet,
     'is-invalid': !props.validOptionSet,
   })
-  
+
   return (
     <button
       className={classes}

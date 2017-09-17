@@ -2,7 +2,6 @@ import React from 'react'
 import classNames from 'classnames'
 
 const ErrorAlert = (props) => {
-
   const classes = classNames({
     'error--alert': true,
     'dur-3': true,
@@ -11,7 +10,7 @@ const ErrorAlert = (props) => {
     'voted-info': props.active === '',
   })
   return (
-  	<div className={classes}>
+    <div className={classes}>
       <span>{props.errorInfo.msg}&nbsp; {props.errorInfo.tip}</span>
     </div>
   )

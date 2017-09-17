@@ -22,7 +22,7 @@ const wsClient = new SubscriptionClient(`wss://subscriptions.graph.cool/v1/cj66g
 })
 
 const networkInterface = createNetworkInterface({
-  uri: 'https://api.graph.cool/simple/v1/cj66g2wto1lbd0187xc4xvdpq',
+  uri: `https://api.graph.cool/simple/v1/cj66g2wto1lbd0187xc4xvdpq`,
 })
 
 const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
