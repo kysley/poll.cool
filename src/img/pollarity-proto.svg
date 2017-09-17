@@ -1,16 +1,17 @@
-<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
- <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
- <g>
-  <title>background</title>
-  <rect fill="none" id="canvas_background" height="202" width="302" y="-1" x="-1"/>
-  <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
-   <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
-  </g>
- </g>
- <g>
-  <title>Layer 1</title>
-  <ellipse ry="71" rx="71" id="svg_1" cy="110" cx="82.992859" stroke-width="0" stroke="#fff" fill="#ffff00"/>
-  <rect stroke-width="0" id="svg_3" height="123" width="123" y="16.5" x="110.492859" stroke="#fff" fill="#ff0000"/>
-  <path stroke-width="0" id="svg_4" d="m140.849999,169.500004l69.142862,-121.000008l69.142862,121.000008l-138.285723,0z" stroke-opacity="null" stroke="#fff" fill="#0000ff"/>
- </g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="782px" height="198px" viewBox="0 0 782 198" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>Artboard</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard">
+            <circle id="Oval" fill="#635EFF" cx="164.5" cy="111.5" r="78.5"></circle>
+            <polygon id="Triangle" fill="#78E3FD" style="mix-blend-mode: multiply;" points="270 8 338 144 202 144"></polygon>
+            <rect id="Rectangle" fill="#5EFFC4" style="mix-blend-mode: screen;" x="19" y="23" width="135" height="135"></rect>
+            <text id="Pollarity." font-family="Theinhardt-Regular, Theinhardt" font-size="90" font-weight="normal" fill="#000000">
+                <tspan x="370" y="126">Pollarity.</tspan>
+            </text>
+        </g>
+    </g>
 </svg>

@@ -4,12 +4,15 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import ApolloClient, { createNetworkInterface } from 'apollo-client'
 import { SubscriptionClient, addGraphQLSubscriptions } from 'subscriptions-transport-ws'
 import { ApolloProvider } from 'react-apollo'
+import ReactGA from 'react-ga'
 
 import CreatePoll from './components/CreatePoll'
 import ShowPoll from './components/ShowPoll'
 import Header from './components/Header'
 
 import styles from '../styles/app.css'
+
+ReactGA.initialize('UA-77767358-4')
 
 const wsClient = new SubscriptionClient(`wss://subscriptions.graph.cool/v1/cj66g2wto1lbd0187xc4xvdpq`, {
   reconnect: true,

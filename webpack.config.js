@@ -10,8 +10,8 @@ const chunkFile = isProd ? '[name].[chunkhash]' : '[name]'
 const hashFile = isProd ? '[name].[hash:5]' : '[name]'
 
 const htmlConfig = {
-  title: 'pollarity',
-  // favicon: 'src/img/favicon.png',
+  title: 'Pollarity.',
+  favicon: 'src/img/favicon.png',
   template: 'src/index.ejs',
 }
 
@@ -21,6 +21,7 @@ const htmlConfig404 = Object.assign({}, htmlConfig, {
 
 const routes = [
   '/',
+  '/poll/',
 ]
 
 module.exports = {
