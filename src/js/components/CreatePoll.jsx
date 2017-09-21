@@ -31,6 +31,7 @@ class CreatePoll extends React.Component {
     if (this.syntheticTitleSave() && this.simulateOptionSubmission()) {
       const { title } = this.state
       const { options } = this.state
+      let optsProcessed = 0
       this.props.submit({ title })
         .then((res) => {
           this.setState({
@@ -45,18 +46,23 @@ class CreatePoll extends React.Component {
             if (trimmedName === '') {
               return;
             } else {
-            this.props.submitOpt({ id, name })
-              .then((res) => {
-              })
+              this.props.submitOpt({ id, name })
+                .then(() => {
+                  optsProcessed++
+                  if (optsProcessed === options.length-1) this.countAsSubmitted()
+                })
             }
           })
-        })
-        .then(() => {
-          setTimeout(function() { this.setState({created: true,}); }.bind(this), 500);
         })
     } else {
       return
     }
+  }
+
+  countAsSubmitted = () => {
+    this.setState({
+      created: true,
+    })
   }
 
   handleTitleChange = (e) => {
@@ -72,7 +78,7 @@ class CreatePoll extends React.Component {
         title: eTitle,
         titleText: 'Continue',
       })
-      
+
     }
   }
 

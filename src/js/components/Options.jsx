@@ -2,10 +2,10 @@ import React from 'react'
 
 
 const Options = (props) => {
-
   this.handleOptionNameChange = (e, idx) => {
     let data = props.options
-    if (props.options.length === idx + 1) {
+
+    if (data.length === idx + 1 && data.length !== 10) {
       data = props.options.concat([{ name: '' }])
       props.addOptionCallback(data)
     }

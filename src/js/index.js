@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import ApolloClient, { createNetworkInterface } from 'apollo-client'
 import { SubscriptionClient, addGraphQLSubscriptions } from 'subscriptions-transport-ws'
 import { ApolloProvider } from 'react-apollo'
@@ -13,6 +13,12 @@ import Header from './components/Header'
 import styles from '../styles/app.css'
 
 ReactGA.initialize('UA-77767358-4')
+
+const GoogleAnalytics = () => {
+  ReactGA.set({ page: window.location.pathname })
+  ReactGA.pageview(window.location.pathname)
+  return null
+}
 
 const wsClient = new SubscriptionClient(`wss://subscriptions.graph.cool/v1/cj66g2wto1lbd0187xc4xvdpq`, {
   reconnect: true,
@@ -39,6 +45,7 @@ ReactDOM.render((
     <Router>
       <div>
         <Header />
+        <GoogleAnalytics />
         <Switch>
           <Route path="/" exact component={CreatePoll} />
           <Route path="/poll/:id" exact component={ShowPoll} />
