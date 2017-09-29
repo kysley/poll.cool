@@ -11,7 +11,7 @@ const Options = (props) => {
     }
     const newOptions = data.map((option, oidx) => {
       if (idx !== oidx) return option
-      return { name: e.target.value}
+      return { name: e.target.value }
     })
     props.optionNameChangeCallback(newOptions)
   }
