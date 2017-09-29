@@ -54,16 +54,6 @@ class ShowPoll extends React.Component {
   }
 
   componentDidMount() {
-    const { id } = this.state
-    const voted = localStorage.getItem(id)
-    if (voted === 'voted') {
-      this.setState({
-        hasVoted: true,
-      })
-    }
-    if (voted === null) {
-      localStorage.setItem(id, 'visited')
-    }
     this.voteSubscription = this.props.allVotesQuery.subscribeToMore({
       document: gql`
       subscription watchVotes{
@@ -115,14 +105,24 @@ class ShowPoll extends React.Component {
       this.setState({
         title: nextProps.allVotesQuery.Poll.title,
       })
+      document.title = `${nextProps.allVotesQuery.Poll.title} | Pollarity.`
     }
   }
 
   setIdFromUrl = () => {
     const idFromUrl = this.props.match.params.id
+    const voted = localStorage.getItem(idFromUrl)
     this.setState({
       id: idFromUrl,
     })
+    if (voted === 'voted') {
+      this.setState({
+        hasVoted: true,
+      })
+    }
+    if (voted === null) {
+      localStorage.setItem(idFromUrl, 'visited')
+    }
   }
 
   addVote = ({ option }) => {
@@ -133,7 +133,7 @@ class ShowPoll extends React.Component {
     const { hasVoted } = this.state
     if (!hasVoted) {
       this.props.submitVote({ id })
-        .then((res) => {
+        .then(() => {
           this.setState({
             hasVoted: true,
             voteSuccessful: true,
