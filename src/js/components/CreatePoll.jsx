@@ -16,7 +16,7 @@ class CreatePoll extends React.Component {
 
     this.state = {
       title: '',
-      options: [{ name: ''}, { name: ''}],
+      options: [{ name: '' }, { name: '' }],
       id: '',
       validTitle: false,
       validityError: null,
@@ -27,11 +27,14 @@ class CreatePoll extends React.Component {
     }
   }
 
+  componentDidMount() {
+    document.title = 'Pollarity.'
+  }
+
   handlePoll = () => {
     if (this.syntheticTitleSave() && this.simulateOptionSubmission()) {
       const { title } = this.state
       const { options } = this.state
-      let optsProcessed = 0
       this.props.submit({ title })
         .then((res) => {
           this.setState({
@@ -43,19 +46,14 @@ class CreatePoll extends React.Component {
           options.forEach((opt) => {
             const name = opt.name
             const trimmedName = name.replace(/^\s+/, '').replace(/\s+$/, '')
-            if (trimmedName === '') {
-              return;
-            } else {
+            if (trimmedName !== '') {
               this.props.submitOpt({ id, name })
                 .then(() => {
-                  optsProcessed++
-                  if (optsProcessed === options.length-1) this.countAsSubmitted()
+                  this.countAsSubmitted()
                 })
             }
           })
         })
-    } else {
-      return
     }
   }
 
@@ -78,7 +76,6 @@ class CreatePoll extends React.Component {
         title: eTitle,
         titleText: 'Continue',
       })
-
     }
   }
 
@@ -90,7 +87,7 @@ class CreatePoll extends React.Component {
       const name = opt.name
       const trimmedName = name.replace(/^\s+/, '').replace(/\s+$/, '')
       if (trimmedName !== '') {
-        validCount++
+        validCount += 1
       }
     })
     if (validCount >= 2) {
@@ -98,16 +95,15 @@ class CreatePoll extends React.Component {
         validOptionSet: true,
       })
       return true
-    } else {
-      const errorInfo = []
-      errorInfo.msg = 'Ack!'
-      errorInfo.tip = 'You need at least 2 non-empty options!'
-      this.setState({
-        validityError: true,
-        errorInfo: errorInfo,
-        titleText: 'Check Options',
-      })
     }
+    const errorInfo = []
+    errorInfo.msg = 'Ack!'
+    errorInfo.tip = 'You need at least 2 non-empty options!'
+    this.setState({
+      validityError: true,
+      errorInfo,
+      titleText: 'Check Options',
+    })
   }
 
   syntheticTitleSave = () => {
@@ -119,14 +115,12 @@ class CreatePoll extends React.Component {
       errorInfo.tip = 'The Title can\'t be empty.'
       this.setState({
         validityError: true,
-        errorInfo: errorInfo,
+        errorInfo,
         titleText: 'Set Poll Title',
       })
       return false
-    } else {
-      return true
-      setTimeout(() => { this.setState({validityError: false, titleText: 'Continue',}) }, 301);
     }
+    return true
   }
 
   syntheticTitleEdit = (e) => {
@@ -145,7 +139,7 @@ class CreatePoll extends React.Component {
       errorInfo.tip = 'The Title can\'t be empty.'
       this.setState({
         validityError: true,
-        errorInfo: errorInfo,
+        errorInfo,
       })
     }
   }
