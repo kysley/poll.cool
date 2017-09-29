@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import ApolloClient, { createNetworkInterface } from 'apollo-client'
+// import ApolloClient, { createNetworkInterface } from 'apollo-client'
+import ApolloClient, { createBatchingNetworkInterface  } from 'apollo-client'
 import { SubscriptionClient, addGraphQLSubscriptions } from 'subscriptions-transport-ws'
 import { ApolloProvider } from 'react-apollo'
 import ReactGA from 'react-ga'
@@ -20,19 +21,27 @@ const GoogleAnalytics = () => {
   return null
 }
 
-const wsClient = new SubscriptionClient(`wss://subscriptions.graph.cool/v1/cj66g2wto1lbd0187xc4xvdpq`, {
+const wsClient = new SubscriptionClient('wss://subscriptions.graph.cool/v1/cj66g2wto1lbd0187xc4xvdpq', {
   reconnect: true,
   connectionParams: {
 
   },
 })
-
-const networkInterface = createNetworkInterface({
-  uri: `https://api.graph.cool/simple/v1/cj66g2wto1lbd0187xc4xvdpq`,
+const batchingNetworkInterface = createBatchingNetworkInterface({
+  uri: 'https://api.graph.cool/simple/v1/cj66g2wto1lbd0187xc4xvdpq',
+  batchInterval: 10,
+  batchMax: 15,
 })
+// const networkInterface = createNetworkInterface({
+//   uri: 'https://api.graph.cool/simple/v1/cj66g2wto1lbd0187xc4xvdpq',
+// })
 
+// const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
+//   networkInterface,
+//   wsClient,
+// )
 const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
-  networkInterface,
+  batchingNetworkInterface,
   wsClient,
 )
 
