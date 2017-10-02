@@ -9,6 +9,7 @@ import SubmitButton from './SubmitButton'
 import AddButton from './AddButton'
 import Options from './Options'
 import ErrorAlert from './ErrorAlert'
+import LoadingModal from './LoadingModal'
 
 class CreatePoll extends React.Component {
   constructor(props, context) {
@@ -24,6 +25,7 @@ class CreatePoll extends React.Component {
       titleText: 'Set Poll Title',
       validOptionSet: false,
       created: false,
+      submitting: false,
     }
   }
 
@@ -31,10 +33,25 @@ class CreatePoll extends React.Component {
     document.title = 'Pollarity.'
   }
 
+  validOptionCount = (options) => {
+    let n = 0
+    options.forEach((opt) => {
+      const name = opt.name
+      const trimmedName = name.replace(/^\s+/, '').replace(/\s+$/, '')
+      if (trimmedName !== '') n += 1
+    })
+    return n
+  }
+
   handlePoll = () => {
     if (this.syntheticTitleSave() && this.simulateOptionSubmission()) {
+      this.setState({
+        submitting: true,
+      })
       const { title } = this.state
       const { options } = this.state
+      let optionAdded = 0
+      const optionValid = this.validOptionCount(options)
       this.props.submit({ title })
         .then((res) => {
           this.setState({
@@ -49,7 +66,13 @@ class CreatePoll extends React.Component {
             if (trimmedName !== '') {
               this.props.submitOpt({ id, name })
                 .then(() => {
-                  this.countAsSubmitted()
+                  optionAdded += 1
+                  if (optionAdded === optionValid) {
+                    this.setState({
+                      submitting: false,
+                    })
+                    setTimeout(() => { this.considerSubmitted() }, 400)
+                  }
                 })
             }
           })
@@ -57,8 +80,9 @@ class CreatePoll extends React.Component {
     }
   }
 
-  countAsSubmitted = () => {
+  considerSubmitted = () => {
     this.setState({
+      submitting: false,
       created: true,
     })
   }
@@ -173,7 +197,7 @@ class CreatePoll extends React.Component {
               value={this.state.title}
               placeholder="Poll Title"
               id="title"
-              autoComplete={false}
+              autoComplete="off"
               autoFocus={true}
               maxLength={84}
               onChange={e => this.handleTitleChange(e)}
@@ -217,13 +241,18 @@ class CreatePoll extends React.Component {
             }
           </Motion>
         )}
-        {created &&
+        { created &&
           <Redirect push to={`/poll/${this.state.id}`} />
         }
         { this.state.validityError && this.state.validityError !== null &&
           <ErrorAlert
             errorInfo={this.state.errorInfo}
             active={this.state.titleText}
+          />
+        }
+        { this.state.submitting &&
+          <LoadingModal
+            active={this.state.submitting}
           />
         }
       </div>
