@@ -90,13 +90,13 @@
   border-radius: 25px;
   transition: all .2s ease-out;
   cursor: pointer;
+  margin-bottom: 2em;
   &:hover {
     background: darken($red, 10%) !important;
     transform: translateY(2px);
   }
   &._submit {
     lost-align: center;
-    margin-bottom: 2em;
   }
 }
 
@@ -121,7 +121,7 @@
 .error--alert {
   display: block !important;
   lost-center: flex;
-  margin-top: 5em;
+  margin-bottom: 2em;
   color: $red;
   &.voted-info {
     color: $purple;
@@ -129,6 +129,25 @@
   span {
     lost-align: center;
     font-size: 1.3rem;
+  }
+}
+
+.loading--alert {
+  padding: 1.1em;
+  box-shadow: 0 12px 22px 0 rgba(0,0,0,.1);
+  position: absolute;
+  width: 100vw;
+  left: 0;
+  top: 0;
+  background: $purple;
+  lost-align: center;
+  h1,h2 {
+    color: #fff;
+  }
+  h2 {
+    margin-left: 1em;
+    font-family: T;
+    font-weight: 400;
   }
 }
 

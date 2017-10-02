@@ -90,9 +90,17 @@
     padding-right: 1em;
   }
   .option--vote {
-    right: 0;
+    right: 1em;
   }
   .option--name {
     margin-right: 0;
+  }
+}
+
+@media (--mid) {
+  .result--wrapper {
+    width: 60%;
+    padding-left: 1em;
+    padding-right: 1em;
   }
 }
