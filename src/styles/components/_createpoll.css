@@ -96,6 +96,7 @@
   }
   &._submit {
     lost-align: center;
+    margin-bottom: 2em;
   }
 }
 
