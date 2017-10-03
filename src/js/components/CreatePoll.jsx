@@ -3,6 +3,7 @@ import { withRouter, Redirect } from 'react-router-dom'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { Motion, spring } from 'react-motion'
+import classNames from 'classnames'
 
 import TitleButton from './TitleButton'
 import SubmitButton from './SubmitButton'
@@ -26,6 +27,7 @@ class CreatePoll extends React.Component {
       validOptionSet: false,
       created: false,
       submitting: false,
+      transitionOut: false,
     }
   }
 
@@ -69,9 +71,9 @@ class CreatePoll extends React.Component {
                   optionAdded += 1
                   if (optionAdded === optionValid) {
                     this.setState({
-                      submitting: false,
+                      transitionOut: true,
                     })
-                    this.considerSubmitted()
+                    setTimeout(() => { this.considerSubmitted() }, 301)
                   }
                 })
             }
@@ -184,11 +186,16 @@ class CreatePoll extends React.Component {
     this.setState({ options: data })
   }
 
-
   render() {
+    const wrapperClasses = classNames({
+      container: true,
+      full: true,
+      'dur-3': true,
+      fadeOut: this.state.transitionOut,
+    })
     const { created } = this.state
     return (
-      <div className="container full">
+      <div className={wrapperClasses}>
         { !this.state.validTitle ? (
           <div className="col-12-of-12 fadeInUp create--wrapper">
             <h1 className="create--title">Create a new Poll</h1>
@@ -241,7 +248,7 @@ class CreatePoll extends React.Component {
             }
           </Motion>
         )}
-        { created &&
+        { created && !this.state.submitting &&
           <Redirect push to={`/poll/${this.state.id}`} />
         }
         { this.state.validityError && this.state.validityError !== null &&
