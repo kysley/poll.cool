@@ -8,7 +8,7 @@ const SubmitButton = (props) => {
 
   const classes = classNames({
     'create--button': true,
-    '_submit': true,
+    _submit: true,
     'is-valid': props.validOptionSet,
     'is-invalid': !props.validOptionSet,
   })

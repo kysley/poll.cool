@@ -5,8 +5,8 @@ const ErrorAlert = (props) => {
   const classes = classNames({
     'error--alert': true,
     'dur-3': true,
-    'fadeIn': props.active !== 'Continue',
-    'fadeOut': props.active === 'Continue',
+    fadeIn: props.active !== 'Continue',
+    fadeOut: props.active === 'Continue',
     'voted-info': props.active === '',
   })
   return (

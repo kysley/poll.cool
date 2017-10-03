@@ -5,8 +5,8 @@ const LoadingModal = (props) => {
   const classes = classNames({
     'loading--alert': true,
     'dur-3': true,
-    'fadeIn': props.active === true,
-    'fadeOut': props.active !== true,
+    fadeIn: props.active === true,
+    fadeOut: props.active !== true,
   })
   return (
     <div className={classes}>

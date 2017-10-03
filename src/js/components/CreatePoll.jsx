@@ -71,7 +71,7 @@ class CreatePoll extends React.Component {
                     this.setState({
                       submitting: false,
                     })
-                    setTimeout(() => { this.considerSubmitted() }, 400)
+                    this.considerSubmitted()
                   }
                 })
             }
