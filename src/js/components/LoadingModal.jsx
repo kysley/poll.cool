@@ -11,7 +11,7 @@ const LoadingModal = (props) => {
   return (
     <div className={classes}>
       <h1>Hang tight!</h1>
-      <h2>Our recordkeepers are prepping your Poll in record time.</h2>
+      <h2>We have some <i>magic</i> prepping your Poll in record time.</h2>
     </div>
   )
 }
