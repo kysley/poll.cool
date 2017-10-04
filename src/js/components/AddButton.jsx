@@ -15,7 +15,7 @@ const AddButton = (props) => {
   return (
     <button
       className={classes}
-      onClick={() => this.handleAddOption()}
+      onClick={this.handleAddOption}
     >
       Add Option
     </button>

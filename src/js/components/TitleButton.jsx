@@ -20,7 +20,7 @@ const TitleButton = (props) => {
   return (
     <button
       className={classes}
-      onClick={() => this.handleSaveTitle()}
+      onClick={this.handleSaveTitle}
     >
       {props.titleText}
     </button>
