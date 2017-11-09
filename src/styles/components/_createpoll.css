@@ -135,7 +135,7 @@
 .loading--alert {
   padding: 1.1em;
   box-shadow: 0 12px 22px 0 rgba(0,0,0,.1);
-  position: absolute;
+  position: fixed;
   width: 100vw;
   left: 0;
   top: 0;

@@ -1,5 +1,5 @@
 .results--wrapper {
-	margin-top: 12vh;
+	margin-top: 7vh;
 }
 
 .result--title {
@@ -51,6 +51,42 @@
     background: $grey !important;
     cursor: not-allowed;
   }
+}
+
+.copy--button__wrapper {
+  lost-center: flex;
+  width: 200px;
+  margin-bottom: 7vh;
+}
+
+.copy--button {
+  font-family: TB;
+  border: 0;
+  outline: 0;
+  font-size: 1.2rem;
+  margin-top: 2rem;
+  color: $blue;
+  background: none;
+  border-bottom: 2px solid lighten($purple, 10%);
+  border-bottom-color: lighten($purple, 10%);
+  lost-center: flex;
+  cursor: pointer;
+  transition: all .2s ease-out;
+  z-index: 1;
+  width: auto;
+  &:hover {
+    transform: translateY(2px);
+    border-bottom: 2px solid lighten($purple, 10%);
+    border-bottom-color: $purple !important;
+  }
+}
+
+.copy--button__dialog {
+  position: absolute;
+  padding-left: 11rem;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+  color: $green;
 }
 
 .option--count {
