@@ -5,7 +5,7 @@ const Options = (props) => {
   this.handleOptionNameChange = (e, idx) => {
     let data = props.options
 
-    if (data.length === idx + 1 && data.length !== 10) {
+    if (data.length === idx + 1 && data.length < 10) {
       data = props.options.concat([{ name: '' }])
       props.addOptionCallback(data)
     }

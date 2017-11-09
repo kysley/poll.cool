@@ -4,6 +4,9 @@ import classNames from 'classnames'
 const AddButton = (props) => {
   this.handleAddOption = () => {
     let data = props.options
+    if (data.length >= 10) {
+      return
+    }
     data = props.options.concat([{ name: '' }])
     props.addOptionCallback(data)
   }
