@@ -6,6 +6,7 @@ import classNames from 'classnames'
 
 import ErrorWrapper from './ErrorWrapper'
 import ErrorAlert from './ErrorAlert'
+import CopyButton from './CopyButton'
 
 const allVotes = gql`
   query allPollData($id: ID!) {
@@ -167,6 +168,7 @@ class ShowPoll extends React.Component {
                 active=""
               />
             }
+            <CopyButton {...this.state} />
           </div>
         }
         {invalidPoll && this.props.allVotesQuery.loading &&
